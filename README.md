@@ -16,8 +16,8 @@ APIs for Food Ordering Service
 `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build`
 
 # Ports Usage
-Portainer `:9000`
-Mongo GUI `:8081`
-
-Catalog Datbase `:27017`
-Catalog Service `:8000`
+Portainer `:9000`  
+Mongo GUI `:8081`  
+Catalog Datbase `:27017`  
+Catalog Service `:8000`  
+Gateway `:8010`
