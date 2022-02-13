@@ -82,6 +82,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - HealthChecksUI__HealthChecks__0__Name=Catalog Health Check
       - HealthChecksUI__HealthChecks__0__Uri=http://catalog.api.services/healthcheck
+      - HealthChecksUI__HealthChecks__1__Name=Ocelot Gateway Health Check
+      - HealthChecksUI__HealthChecks__1__Uri=http://ocelotapigateway/healthcheck
     ports:
       - "8007:80"
-
