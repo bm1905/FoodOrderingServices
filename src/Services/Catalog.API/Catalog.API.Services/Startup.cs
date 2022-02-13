@@ -1,11 +1,14 @@
 using Catalog.API.Helpers.Middleware;
 using Catalog.API.Services.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using HealthChecks.UI.Client;
 
 namespace Catalog.API.Services
 {
@@ -34,6 +37,10 @@ namespace Catalog.API.Services
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API.Services", Version = "v1" });
             });
+            services.AddHealthChecks()
+                .AddMongoDb(_config.GetSection("DatabaseSettings:Connection").Value,
+                    "Product Mongo Database Health",
+                    HealthStatus.Degraded);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +64,11 @@ namespace Catalog.API.Services
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/healthcheck", new HealthCheckOptions()
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
             });
         }
     }

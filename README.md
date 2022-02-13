@@ -29,3 +29,6 @@ Kibana - http://host.docker.internal:5601
 Catalog Database - http://host.docker.internal:27017  
 Gateway - http://host.docker.internal:8010  
 Elasticsearch - http://host.docker.internal:9200  
+
+### HealthChecks
+Web App - http://host.docker.internal:8007  
