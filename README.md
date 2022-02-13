@@ -16,8 +16,10 @@ APIs for Food Ordering Service
 `docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build`
 
 # Ports Usage
-Portainer `:9000`  
-Mongo GUI `:8081`  
-Catalog Datbase `:27017`  
-Catalog Service `:8000`  
-Gateway `:8010`
+Portainer `http://host.docker.internal:9000`  
+Mongo GUI `http://host.docker.internal:8081`  
+Catalog Datbase `http://host.docker.internal:27017`  
+Catalog Service `http://host.docker.internal:8000`  
+Gateway `http://host.docker.internal:8010`  
+Elasticsearch `http://host.docker.internal:9200`  
+Kibana `http://host.docker.internal:5601`  

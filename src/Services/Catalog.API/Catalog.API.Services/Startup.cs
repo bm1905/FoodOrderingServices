@@ -1,4 +1,3 @@
-using Catalog.API.Helpers.Filters;
 using Catalog.API.Helpers.Middleware;
 using Catalog.API.Services.Extensions;
 using Microsoft.AspNetCore.Builder;
