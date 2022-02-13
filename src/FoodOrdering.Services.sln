@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.API.DAL", "Catalog.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.API.Helpers", "Catalog.API\Catalog.API.Helpers\Catalog.API.Helpers.csproj", "{3CB16815-D39E-4491-A7D4-A767C58E9877}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.API.BLL", "Catalog.API\Product.API.BLL\Catalog.API.BLL\Catalog.API.BLL.csproj", "{594C497D-4D82-40B8-8CDF-855DF649546B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.API.BLL", "Catalog.API\Catalog.API.BLL\Catalog.API.BLL.csproj", "{594C497D-4D82-40B8-8CDF-855DF649546B}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{85049CFB-E3AD-4331-9E19-9F2336707004}"
 EndProject

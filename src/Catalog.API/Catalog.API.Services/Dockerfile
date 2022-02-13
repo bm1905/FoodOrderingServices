@@ -10,7 +10,7 @@ COPY ["Catalog.API/Catalog.API.Services/Catalog.API.Services.csproj", "Catalog.A
 COPY ["Catalog.API/Catalog.API.Helpers/Catalog.API.Helpers.csproj", "Catalog.API/Catalog.API.Helpers/"]
 COPY ["Catalog.API/Catalog.API.Model/Catalog.API.Model.csproj", "Catalog.API/Catalog.API.Model/"]
 COPY ["Catalog.API/Catalog.API.DAL/Catalog.API.DAL.csproj", "Catalog.API/Catalog.API.DAL/"]
-COPY ["Catalog.API/Product.API.BLL/Catalog.API.BLL/Catalog.API.BLL.csproj", "Catalog.API/Product.API.BLL/Catalog.API.BLL/"]
+COPY ["Catalog.API/Catalog.API.BLL/Catalog.API.BLL.csproj", "Catalog.API/Catalog.API.BLL/"]
 RUN dotnet restore "Catalog.API/Catalog.API.Services/Catalog.API.Services.csproj"
 COPY . .
 WORKDIR "/src/Catalog.API/Catalog.API.Services"

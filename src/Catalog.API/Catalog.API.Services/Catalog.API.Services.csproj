@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Catalog.API.BLL\Catalog.API.BLL.csproj" />
     <ProjectReference Include="..\Catalog.API.DAL\Catalog.API.DAL.csproj" />
     <ProjectReference Include="..\Catalog.API.Helpers\Catalog.API.Helpers.csproj" />
-    <ProjectReference Include="..\Product.API.BLL\Catalog.API.BLL\Catalog.API.BLL.csproj" />
   </ItemGroup>
 
 </Project>

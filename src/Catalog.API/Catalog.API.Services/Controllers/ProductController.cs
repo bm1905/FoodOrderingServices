@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Catalog.API.BLL;
 using Catalog.API.Helpers.Exceptions;
 using Catalog.API.Model.Models;
-using Catalog.API.BLL;
 
 namespace Catalog.API.Services.Controllers
 {
