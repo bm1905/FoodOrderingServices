@@ -39,7 +39,7 @@ namespace Catalog.API.Services.SwaggerOptions
                 Version = description.ApiVersion.ToString(),
                 Description = "Product.API.Services with API versioning.",
                 Contact = new OpenApiContact() { Name = "Bijay Maharjan", Email = "bijay.maharjan5@gmail.com" },
-                License = new OpenApiLicense() { Name = "GNU", Url = new Uri("https://opensource.org/licenses/MIT") }
+                License = new OpenApiLicense() { Name = "GNU", Url = new Uri("https://www.gnu.org/licenses") }
             };
 
             if (description.IsDeprecated)
