@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Catalog.API.Model.Entities;
-using Catalog.API.Model.Models;
-using Catalog.API.Helpers.Exceptions;
 using AutoMapper;
+using Catalog.API.Model.DTOs;
+using Common.Exceptions;
 
 namespace Catalog.API.BLL
 {

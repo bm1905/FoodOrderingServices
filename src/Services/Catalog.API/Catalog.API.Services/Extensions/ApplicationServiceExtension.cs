@@ -5,8 +5,11 @@ using Catalog.API.Helpers.AutoMapper;
 using Catalog.API.Helpers.Filters;
 using Catalog.API.Helpers.PhotoService;
 using Catalog.API.Helpers.Settings;
+using Catalog.API.Services.SwaggerOptions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Catalog.API.Services.Extensions
 {
@@ -23,6 +26,8 @@ namespace Catalog.API.Services.Extensions
                 options.DatabaseName = config.GetSection("DatabaseSettings:DatabaseName").Value;
                 options.CollectionName = config.GetSection("DatabaseSettings:CollectionName").Value;
             });
+
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
             services.AddScoped<IProductContext, ProductContext>();
             services.AddScoped<IPhotoService, PhotoService>();

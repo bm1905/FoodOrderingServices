@@ -1,4 +1,4 @@
-﻿namespace Catalog.API.Helpers.Exceptions
+﻿namespace Common.Exceptions
 {
     public class ExceptionModel
     {

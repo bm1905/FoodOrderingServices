@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Catalog.API.Helpers.Exceptions;
+using Common.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

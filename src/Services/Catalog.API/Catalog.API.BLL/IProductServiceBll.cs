@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Catalog.API.Model.Models;
+using Catalog.API.Model.DTOs;
 
 namespace Catalog.API.BLL
 {

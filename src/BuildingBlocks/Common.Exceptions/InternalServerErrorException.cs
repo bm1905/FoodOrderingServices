@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Catalog.API.Helpers.Exceptions
+namespace Common.Exceptions
 {
     public class InternalServerErrorException : System.Exception
     {
