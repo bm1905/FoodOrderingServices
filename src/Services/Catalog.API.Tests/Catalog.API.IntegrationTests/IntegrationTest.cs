@@ -17,7 +17,7 @@ namespace Catalog.API.IntegrationTests
             var appFactory = new WebApplicationFactory<Startup>();
             //Version = appFactory.Services.GetRequiredService<IApiVersionDescriptionProvider>().ApiVersionDescriptions.Single().GroupName;
 
-            Version = appFactory.Services.GetRequiredService<IApiVersionDescriptionProvider>().ApiVersionDescriptions.First().GroupName;
+            Version = appFactory.Services.GetRequiredService<IApiVersionDescriptionProvider>().ApiVersionDescriptions[0].GroupName;
 
             TestClient = appFactory.CreateClient();
         }

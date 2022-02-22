@@ -14,6 +14,7 @@ namespace IdentityServer.Pages
 
         public void OnGet()
         {
+            _logger.LogInformation("Request");
         }
     }
 }

@@ -4,19 +4,22 @@ services:
   portainer:
     image: portainer/portainer-ce
   
-  mongo.express:
+  mongo-express:
     image: mongo-express
+  
+  catalog-api-redis:
+    image: redis:alpine
 
-  catalogdb:
+  catalog-api-mongodb:
     image: mongo
 
-  catalog.api.services:
+  catalog-api-services:
     image: ${DOCKER_REGISTRY-}catalogapiservices
     build:
       context: .
       dockerfile: Services/Catalog.API/Catalog.API.Services/Dockerfile
 
-  ocelotapigateway:
+  ocelot-api-gateway:
     image: ${DOCKER_REGISTRY-}ocelotapigateway
     build:
       context: .

@@ -2,6 +2,7 @@
 using Catalog.API.DAL.Context;
 using Catalog.API.DAL.Repository;
 using Catalog.API.Helpers.AutoMapper;
+using Catalog.API.Helpers.CacheService;
 using Catalog.API.Helpers.Filters;
 using Catalog.API.Helpers.PhotoService;
 using Catalog.API.Helpers.Settings;
@@ -17,25 +18,48 @@ namespace Catalog.API.Services.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            // Cloudinary --> For photos
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
-            services.Configure<MongoSettings>(config.GetSection("DatabaseSettings"));
 
+            // Mongo --> Main database
+            services.Configure<MongoSettings>(config.GetSection("DatabaseSettings"));
             services.Configure<MongoSettings>(options =>
             {
-                options.Connection = config.GetSection("DatabaseSettings:Connection").Value;
+                options.ConnectionString = config.GetSection("DatabaseSettings:ConnectionString").Value;
                 options.DatabaseName = config.GetSection("DatabaseSettings:DatabaseName").Value;
                 options.CollectionName = config.GetSection("DatabaseSettings:CollectionName").Value;
             });
 
+            // Redis --> Caching
+            var redisCacheSettings = new RedisCacheSettings();
+            config.GetSection(nameof(RedisCacheSettings)).Bind(redisCacheSettings);
+            services.AddSingleton(redisCacheSettings);
+            if (redisCacheSettings.Enabled)
+            {
+                services.AddStackExchangeRedisCache(options => options.Configuration = redisCacheSettings.ConnectionString);
+                services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+            }
+
+            // Swagger extensions
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
-            services.AddScoped<IProductContext, ProductContext>();
-            services.AddScoped<IPhotoService, PhotoService>();
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IProductServiceBll, ProductServiceBll>();
+            // Auto Mapper
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
+            // Validator
             services.AddScoped<ValidateModelFilter>();
+
+            // DB Context
+            services.AddScoped<IProductContext, ProductContext>();
+
+            // Services
+            services.AddScoped<IPhotoService, PhotoService>();
+
+            // DAL
+            services.AddScoped<IProductRepository, ProductRepository>();
+
+            // BLL
+            services.AddScoped<IProductServiceBll, ProductServiceBll>();
 
             return services;
         }

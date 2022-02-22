@@ -14,7 +14,7 @@ namespace Catalog.API.Services.Controllers.v1
     [ApiVersion("1.0")]
     [Route("api/[controller]")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    [ServiceFilter(typeof(ValidateModelFilter))]
+    [ValidateModelFilter]
     public class ProductController : ControllerBase
     {
         private readonly IProductServiceBll _productServiceBll;
@@ -26,6 +26,7 @@ namespace Catalog.API.Services.Controllers.v1
 
         [MapToApiVersion("1.0")]
         [HttpGet]
+        [CacheAttributeFilter(600)]
         [ProducesResponseType(typeof(IEnumerable<ProductResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(NotFoundException), (int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<ProductResponse>>> GetProducts()

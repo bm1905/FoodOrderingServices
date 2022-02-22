@@ -27,6 +27,7 @@ Kibana - http://host.docker.internal:5601
 
 ### Services
 Catalog Database - http://host.docker.internal:27017  
+Catalog API Redis - http://host.docker.internal:6379  
 Gateway - http://host.docker.internal:8010  
 Elasticsearch - http://host.docker.internal:9200  
 

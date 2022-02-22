@@ -71,8 +71,11 @@ namespace Catalog.API.Services
             });
 
             services.AddHealthChecks()
-                .AddMongoDb(_config.GetSection("DatabaseSettings:Connection").Value,
-                    "Product Mongo Database Health",
+                .AddMongoDb(_config.GetSection("DatabaseSettings:ConnectionString").Value,
+                    "Catalog API Mongo Database Health",
+                    HealthStatus.Degraded)
+                .AddRedis(_config.GetSection("RedisCacheSettings:ConnectionString").Value,
+                    "Catalog API Redis Health",
                     HealthStatus.Degraded);
         }
 

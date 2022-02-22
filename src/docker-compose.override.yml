@@ -11,8 +11,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
  
-  catalogdb:
-    container_name: catalogdb
+  catalog-api-mongodb:
+    container_name: catalog-api-mongodb
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: testaccount
@@ -22,36 +22,45 @@ services:
     volumes:
       - mongo_data:/data/db
 
-  mongo.express:
-    container_name: mongo.express
+  mongo-express:
+    container_name: mongo-express
     restart: always
     ports:
       - "8081:8081"
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: testaccount
       ME_CONFIG_MONGODB_ADMINPASSWORD: testaccount
-      ME_CONFIG_MONGODB_SERVER: catalogdb
+      ME_CONFIG_MONGODB_SERVER: catalog-api-mongodb
     depends_on:
-      - catalogdb
+      - catalog-api-mongodb
+    
+  catalog-api-redis:
+    container_name: catalog-api-redis
+    restart: always
+    ports:
+      - "6379:6379" 
 
-  catalog.api.services:
-    container_name: catalog.api.services
+  catalog-api-services:
+    container_name: catalog-api-services
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "DatabaseSettings:Connection=mongodb://testaccount:testaccount@catalogdb:27017"
+      - "DatabaseSettings:ConnectionString=mongodb://testaccount:testaccount@catalog-api-mongodb:27017"
+      - "RedisCacheSettings:ConnectionString=catalog-api-redis:6379"
+      - "RedisCacheSettings:Enabled=true"
       - "ElasticConfiguration:Uri=http://elasticsearch:9200"
     depends_on:
-      - catalogdb
+      - catalog-api-mongodb
+      - catalog-api-redis
     ports:
       - "8000:80"
   
-  ocelotapigateway:
-    container_name: ocelotapigateway
+  ocelot-api-gateway:
+    container_name: ocelot-api-gateway
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ElasticConfiguration:Uri=http://elasticsearch:9200"
     depends_on:
-      - catalog.api.services
+      - catalog-api-services
     ports:
       - "8010:80"
 
@@ -81,8 +90,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - HealthChecksUI__HealthChecks__0__Name=Catalog Health Check
-      - HealthChecksUI__HealthChecks__0__Uri=http://catalog.api.services/healthcheck
+      - HealthChecksUI__HealthChecks__0__Uri=http://catalog-api-services/healthcheck
       - HealthChecksUI__HealthChecks__1__Name=Ocelot Gateway Health Check
-      - HealthChecksUI__HealthChecks__1__Uri=http://ocelotapigateway/healthcheck
+      - HealthChecksUI__HealthChecks__1__Uri=http://ocelot-api-gateway/healthcheck
     ports:
       - "8007:80"

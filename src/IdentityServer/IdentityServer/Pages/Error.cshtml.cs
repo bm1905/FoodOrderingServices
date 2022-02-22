@@ -21,6 +21,7 @@ namespace IdentityServer.Pages
 
         public void OnGet()
         {
+            _logger.LogInformation("Request");
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
     }
