@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Catalog.API.Helpers.Pagination;
 using Catalog.API.Model.DTOs;
 
 namespace Catalog.API.BLL
 {
     public interface IProductServiceBll
     {
-        Task<IEnumerable<ProductResponse>> ProcessGetProductsAsync();
+        Task<PagedResponse<ProductResponse>> ProcessGetProductsAsync(PaginationQuery paginationQuery);
     }
 }

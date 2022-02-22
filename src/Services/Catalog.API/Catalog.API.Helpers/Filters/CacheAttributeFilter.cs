@@ -15,7 +15,6 @@ namespace Catalog.API.Helpers.Filters
     public class CacheAttributeFilter : Attribute, IAsyncActionFilter
     {
         private readonly int _timeToLiveInSeconds;
-        private readonly IResponseCacheService _cache;
 
         public CacheAttributeFilter(int timeToLiveInSeconds)
         {

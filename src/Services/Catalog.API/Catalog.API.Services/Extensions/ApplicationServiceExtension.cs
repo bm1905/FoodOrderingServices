@@ -6,9 +6,12 @@ using Catalog.API.Helpers.CacheService;
 using Catalog.API.Helpers.Filters;
 using Catalog.API.Helpers.PhotoService;
 using Catalog.API.Helpers.Settings;
+using Catalog.API.Helpers.UriService;
 using Catalog.API.Services.SwaggerOptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -54,6 +57,14 @@ namespace Catalog.API.Services.Extensions
 
             // Services
             services.AddScoped<IPhotoService, PhotoService>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IUriService, UriService>(provider =>
+            {
+                var accessor = provider.GetRequiredService<IHttpContextAccessor>();
+                var request = accessor?.HttpContext?.Request;
+                var absoluteUri = string.Concat(request?.Scheme, "://", request?.Host.ToUriComponent(), "/");
+                return new UriService(absoluteUri);
+            });
 
             // DAL
             services.AddScoped<IProductRepository, ProductRepository>();

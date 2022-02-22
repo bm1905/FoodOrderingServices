@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Catalog.API.BLL;
 using Catalog.API.Helpers.Filters;
+using Catalog.API.Helpers.Pagination;
 using Catalog.API.Model.DTOs;
 using Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +30,12 @@ namespace Catalog.API.Services.Controllers.v2
         [CacheAttributeFilter(600)]
         [ProducesResponseType(typeof(IEnumerable<ProductResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(NotFoundException), (int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<IEnumerable<ProductResponse>>> GetProducts()
+        public async Task<ActionResult<PagedResponse<ProductResponse>>> GetProducts([FromQuery] PaginationQuery paginationQuery)
         {
-            IEnumerable<ProductResponse> products = await _productServiceBll.ProcessGetProductsAsync();
+            PagedResponse<ProductResponse> products = await _productServiceBll.ProcessGetProductsAsync(paginationQuery);
+
+            //var paginationResponse = new PagedResponse<ProductResponse>(products);
+
             return Ok(products);
         }
     }
