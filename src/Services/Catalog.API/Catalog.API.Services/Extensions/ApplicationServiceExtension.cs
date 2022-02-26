@@ -58,12 +58,22 @@ namespace Catalog.API.Services.Extensions
             // Services
             services.AddScoped<IPhotoService, PhotoService>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IUriService, UriService>(provider =>
+            services.AddTransient<IUriService, UriService>(provider =>
             {
                 var accessor = provider.GetRequiredService<IHttpContextAccessor>();
                 var request = accessor?.HttpContext?.Request;
-                var absoluteUri = string.Concat(request?.Scheme, "://", request?.Host.ToUriComponent(), "/");
-                return new UriService(absoluteUri);
+
+                // For versioning in query string ?api-version=x.x&
+                var queryString = request?.QueryString.ToString();
+                var versionInfo = request?.QueryString.ToString()[..queryString.IndexOf('&')];
+
+                if (!string.IsNullOrEmpty(versionInfo) && versionInfo[..13].Equals("?api-version="))
+                {
+                    return new UriService(string.Concat(request.Scheme, "://", request.Host.ToUriComponent(), request.Path, versionInfo));
+                }
+
+                // For versioning in base url api/v1/....
+                return new UriService(string.Concat(request?.Scheme, "://", request?.Host.ToUriComponent(), request?.Path));
             });
 
             // DAL

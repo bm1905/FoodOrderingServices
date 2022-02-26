@@ -13,11 +13,6 @@ namespace Catalog.API.Helpers.UriService
             _baseUri = baseUri;
         }
 
-        public Uri GetProductUri(string productId)
-        {
-            return new Uri(_baseUri.Replace("{productId}", productId));
-        }
-
         public Uri GetAllProductsUri(PaginationQuery pagination = null)
         {
             var uri = new Uri(_baseUri);

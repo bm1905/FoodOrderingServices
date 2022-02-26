@@ -34,8 +34,6 @@ namespace Catalog.API.Services.Controllers.v2
         {
             PagedResponse<ProductResponse> products = await _productServiceBll.ProcessGetProductsAsync(paginationQuery);
 
-            //var paginationResponse = new PagedResponse<ProductResponse>(products);
-
             return Ok(products);
         }
     }

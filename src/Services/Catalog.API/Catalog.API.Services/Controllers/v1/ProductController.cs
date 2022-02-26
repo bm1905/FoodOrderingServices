@@ -34,7 +34,29 @@ namespace Catalog.API.Services.Controllers.v1
         {
             PagedResponse<ProductResponse> products = await _productServiceBll.ProcessGetProductsAsync(paginationQuery);
 
-            //var paginationResponse = new PagedResponse<ProductResponse>(products);
+            return Ok(products);
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpGet("{productId:length(24)}")]
+        [CacheAttributeFilter(600)]
+        [ProducesResponseType(typeof(IEnumerable<ProductResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(NotFoundException), (int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<IEnumerable<ProductResponse>>> GetProductById(string productId)
+        {
+            ProductResponse product = await _productServiceBll.ProcessGetProductByIdAsync(productId);
+
+            return Ok(product);
+        }
+
+        [MapToApiVersion("1.0")]
+        [HttpGet("[action]/{category}")]
+        [CacheAttributeFilter(600)]
+        [ProducesResponseType(typeof(IEnumerable<ProductResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(NotFoundException), (int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<PagedResponse<ProductResponse>>> GetProductsByCategory([FromQuery] PaginationQuery paginationQuery, string category)
+        {
+            PagedResponse<ProductResponse> products = await _productServiceBll.ProcessGetProductsByCategoryAsync(paginationQuery, category);
 
             return Ok(products);
         }

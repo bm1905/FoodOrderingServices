@@ -59,5 +59,49 @@ namespace Catalog.API.BLL
 
             return PaginationHelper.CreatePaginatedResponse(_uriService, pagination, productResponses);
         }
+
+        public async Task<ProductResponse> ProcessGetProductByIdAsync(string productId)
+        {
+            Product product = await _productRepository.GetProductById(productId);
+
+            if (product == null) throw new NotFoundException($"Product with id: {productId} not found!");
+
+            return _mapper.Map<ProductResponse>(product);
+        }
+
+        public async Task<PagedResponse<ProductResponse>> ProcessGetProductsByCategoryAsync(PaginationQuery paginationQuery, string category)
+        {
+            IEnumerable<Product> products;
+            PaginationFilter pagination = _mapper.Map<PaginationFilter>(paginationQuery);
+
+            if (pagination != null)
+            {
+                var skip = (pagination.PageNumber - 1) * pagination.PageSize;
+                var pageSize = pagination.PageSize;
+
+                var productsCount = await _productRepository.GetProductsCount();
+
+                if (productsCount <= 0) throw new NotFoundException($"No any products found for category {category}!");
+
+                if (productsCount - skip <= 0) throw new NotFoundException($"No product exists for {category} at page number {pagination.PageNumber}!");
+
+                products = await _productRepository.GetPaginatedProductsByCategory(skip, pageSize, category);
+            }
+            else
+            {
+                products = await _productRepository.GetProductsByCategory(category);
+            }
+
+            if (products == null || !products.Any()) throw new NotFoundException($"No any products found for category {category}!");
+
+            IList<ProductResponse> productResponses = _mapper.Map<IList<ProductResponse>>(products);
+
+            if (pagination == null || pagination.PageNumber < 1 || pagination.PageSize < 1)
+            {
+                return new PagedResponse<ProductResponse>(productResponses);
+            }
+
+            return PaginationHelper.CreatePaginatedResponse(_uriService, pagination, productResponses);
+        }
     }
 }

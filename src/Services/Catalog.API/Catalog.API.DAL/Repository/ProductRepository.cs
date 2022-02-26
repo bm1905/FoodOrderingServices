@@ -30,19 +30,26 @@ namespace Catalog.API.DAL.Repository
             return await _context.Products.Find(p => true).Skip(skip).Limit(pageSize).ToListAsync();
         }
         
-        public Task<Product> GetProductById(string productId)
+        public async Task<Product> GetProductById(string productId)
         {
-            throw new NotImplementedException();
+            return await _context.Products.Find(p => p.Id == productId).FirstOrDefaultAsync();
         }
 
-        public Task<Product> GetProductByName(string productName)
+        public async Task<Product> GetProductByName(string productName)
         {
-            throw new NotImplementedException();
+            return await _context.Products.Find(p => p.Name == productName).FirstOrDefaultAsync();
         }
 
-        public Task<IEnumerable<Product>> GetProductsByCategory(string categoryName)
+        public async Task<IEnumerable<Product>> GetProductsByCategory(string categoryName)
         {
-            throw new NotImplementedException();
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(p => p.Category, categoryName);
+            return await _context.Products.Find(filter).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetPaginatedProductsByCategory(int skip, int pageSize, string categoryName)
+        {
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(p => p.Category, categoryName);
+            return await _context.Products.Find(filter).Skip(skip).Limit(pageSize).ToListAsync();
         }
 
         public Task<IEnumerable<Product>> GetPopularProducts()

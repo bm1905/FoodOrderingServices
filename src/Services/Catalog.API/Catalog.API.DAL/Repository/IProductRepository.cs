@@ -12,6 +12,7 @@ namespace Catalog.API.DAL.Repository
         Task<Product> GetProductById(string productId);
         Task<Product> GetProductByName(string productName);
         Task<IEnumerable<Product>> GetProductsByCategory(string categoryName);
+        Task<IEnumerable<Product>> GetPaginatedProductsByCategory(int skip, int pageSize, string categoryName);
         Task<IEnumerable<Product>> GetPopularProducts();
         Task CreateProduct(Product product);
         Task<bool> UpdateProduct(Product product);
