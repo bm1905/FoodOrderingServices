@@ -7,7 +7,8 @@ namespace Catalog.API.DAL.Repository
     public interface IProductRepository
     {
         Task<IEnumerable<Product>> GetAllProducts();
-        Task<IEnumerable<Product>> GetPaginatedProducts(int skip, int take);
+        Task<IEnumerable<Product>> GetPaginatedProducts(int skip, int pageSize);
+        Task<long> GetProductsCount();
         Task<Product> GetProductById(string productId);
         Task<Product> GetProductByName(string productName);
         Task<IEnumerable<Product>> GetProductsByCategory(string categoryName);

@@ -25,7 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Common.Logging\Common.Logging.csproj" />
     <ProjectReference Include="..\Catalog.API.BLL\Catalog.API.BLL.csproj" />
-    <ProjectReference Include="..\Catalog.API.DAL\Catalog.API.DAL.csproj" />
     <ProjectReference Include="..\Catalog.API.Helpers\Catalog.API.Helpers.csproj" />
   </ItemGroup>
 

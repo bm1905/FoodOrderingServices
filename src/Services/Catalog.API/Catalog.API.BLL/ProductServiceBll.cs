@@ -33,16 +33,22 @@ namespace Catalog.API.BLL
             if (pagination != null)
             {
                 var skip = (pagination.PageNumber - 1) * pagination.PageSize;
-                var take = pagination.PageSize;
+                var pageSize = pagination.PageSize;
 
-                products = await _productRepository.GetPaginatedProducts(skip, take);
+                var productsCount = await _productRepository.GetProductsCount();
+
+                if (productsCount <= 0) throw new NotFoundException("No any products found!");
+
+                if (productsCount - skip <= 0) throw new NotFoundException($"No product exists for page number {pagination.PageNumber}!");
+
+                products = await _productRepository.GetPaginatedProducts(skip, pageSize);
             }
             else
             {
                 products = await _productRepository.GetAllProducts();
             }
 
-            if (products == null || !products.Any()) throw new NotFoundException("Product not found!");
+            if (products == null || !products.Any()) throw new NotFoundException("No any products found!");
 
             IList<ProductResponse> productResponses = _mapper.Map<IList<ProductResponse>>(products);
 

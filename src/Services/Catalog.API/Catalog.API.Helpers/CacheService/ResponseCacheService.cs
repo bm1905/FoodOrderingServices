@@ -22,16 +22,32 @@ namespace Catalog.API.Helpers.CacheService
             }
 
             var serializedResponse = JsonConvert.SerializeObject(response);
-            await _distributedCache.SetStringAsync(cacheKey, serializedResponse, new DistributedCacheEntryOptions
+
+            try
             {
-                AbsoluteExpirationRelativeToNow = timeToLive
-            });
+                await _distributedCache.SetStringAsync(cacheKey, serializedResponse, new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = timeToLive
+                });
+            }
+            catch (Exception)
+            {
+                // Redis is down
+            }
         }
 
         public async Task<string> GetCachedResponseAsync(string cacheKey)
         {
-            var cachedResponse = await _distributedCache.GetStringAsync(cacheKey);
-            return string.IsNullOrEmpty(cachedResponse) ? null : cachedResponse;
+            try
+            {
+                var cachedResponse = await _distributedCache.GetStringAsync(cacheKey);
+                return string.IsNullOrEmpty(cachedResponse) ? null : cachedResponse;
+            }
+            catch (Exception)
+            {
+                // Redis is down
+                return null;
+            }
         }
     }
 }

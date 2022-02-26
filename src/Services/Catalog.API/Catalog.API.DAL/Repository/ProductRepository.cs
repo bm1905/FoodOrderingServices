@@ -20,9 +20,14 @@ namespace Catalog.API.DAL.Repository
             return await _context.Products.Find(p => true).ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetPaginatedProducts(int skip, int take)
+        public async Task<long> GetProductsCount()
         {
-            return await _context.Products.Find(p => true).Skip(skip).Limit(take).ToListAsync();
+            return await _context.Products.EstimatedDocumentCountAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetPaginatedProducts(int skip, int pageSize)
+        {
+            return await _context.Products.Find(p => true).Skip(skip).Limit(pageSize).ToListAsync();
         }
         
         public Task<Product> GetProductById(string productId)

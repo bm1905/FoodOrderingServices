@@ -36,6 +36,9 @@ namespace Catalog.API.Helpers.Filters
 
             var cacheService = context.HttpContext.RequestServices.GetRequiredService<IResponseCacheService>();
             var cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
+
+            // If Redis is down, we don't crash the application
+
             var cachedResponse = await cacheService.GetCachedResponseAsync(cacheKey);
 
             if (!string.IsNullOrEmpty(cachedResponse))
