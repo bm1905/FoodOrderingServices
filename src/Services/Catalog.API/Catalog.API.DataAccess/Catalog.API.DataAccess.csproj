@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Catalog.API.Core\Catalog.API.Core.csproj" />
-    <ProjectReference Include="..\Catalog.API.Shared\Catalog.API.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
