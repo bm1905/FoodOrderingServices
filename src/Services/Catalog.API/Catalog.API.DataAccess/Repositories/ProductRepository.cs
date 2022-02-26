@@ -52,9 +52,14 @@ namespace Catalog.API.DataAccess.Repositories
             return await _context.Products.Find(filter).Skip(skip).Limit(pageSize).ToListAsync();
         }
 
-        public Task<IEnumerable<Product>> GetPopularProducts()
+        public async Task<IEnumerable<Product>> GetPopularProducts()
         {
-            throw new NotImplementedException();
+            return await _context.Products.Find(p => p.IsPopularProduct).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetPaginatedPopularProducts(int skip, int pageSize)
+        {
+            return await _context.Products.Find(p => p.IsPopularProduct).Skip(skip).Limit(pageSize).ToListAsync();
         }
 
         public Task CreateProduct(Product product)

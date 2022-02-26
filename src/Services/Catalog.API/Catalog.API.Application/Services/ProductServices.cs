@@ -104,5 +104,40 @@ namespace Catalog.API.Application.Services
 
             return PaginationHelper.CreatePaginatedResponse(_uriService, pagination, productResponses);
         }
+
+        public async Task<PagedResponse<ProductResponse>> ProcessGetPopularProductsAsync(PaginationQuery paginationQuery)
+        {
+            IEnumerable<Product> products;
+            PaginationFilter pagination = _mapper.Map<PaginationFilter>(paginationQuery);
+
+            if (pagination != null)
+            {
+                var skip = (pagination.PageNumber - 1) * pagination.PageSize;
+                var pageSize = pagination.PageSize;
+
+                var productsCount = await _productRepository.GetProductsCount();
+
+                if (productsCount <= 0) throw new NotFoundException("No any products found!");
+
+                if (productsCount - skip <= 0) throw new NotFoundException($"No product exists for page number {pagination.PageNumber}!");
+
+                products = await _productRepository.GetPaginatedPopularProducts(skip, pageSize);
+            }
+            else
+            {
+                products = await _productRepository.GetPopularProducts();
+            }
+
+            if (products == null || !products.Any()) throw new NotFoundException("No any products found!");
+
+            IList<ProductResponse> productResponses = _mapper.Map<IList<ProductResponse>>(products);
+
+            if (pagination == null || pagination.PageNumber < 1 || pagination.PageSize < 1)
+            {
+                return new PagedResponse<ProductResponse>(productResponses);
+            }
+
+            return PaginationHelper.CreatePaginatedResponse(_uriService, pagination, productResponses);
+        }
     }
 }

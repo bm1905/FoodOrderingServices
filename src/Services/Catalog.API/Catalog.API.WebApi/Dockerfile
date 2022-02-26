@@ -10,7 +10,6 @@ COPY ["Services/Catalog.API/Catalog.API.WebApi/Catalog.API.WebApi.csproj", "Serv
 COPY ["Services/Catalog.API/Catalog.API.Application/Catalog.API.Application.csproj", "Services/Catalog.API/Catalog.API.Application/"]
 COPY ["Services/Catalog.API/Catalog.API.DataAccess/Catalog.API.DataAccess.csproj", "Services/Catalog.API/Catalog.API.DataAccess/"]
 COPY ["Services/Catalog.API/Catalog.API.Core/Catalog.API.Core.csproj", "Services/Catalog.API/Catalog.API.Core/"]
-COPY ["Services/Catalog.API/Catalog.API.Shared/Catalog.API.Shared.csproj", "Services/Catalog.API/Catalog.API.Shared/"]
 COPY ["BuildingBlocks/Common.Logging/Common.Logging.csproj", "BuildingBlocks/Common.Logging/"]
 RUN dotnet restore "Services/Catalog.API/Catalog.API.WebApi/Catalog.API.WebApi.csproj"
 COPY . .

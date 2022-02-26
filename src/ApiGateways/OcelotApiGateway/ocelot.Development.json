@@ -6,7 +6,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "catalog-api-services",
+          "Host": "catalog-api-webapi",
           "Port": "80"
         }
       ],
