@@ -1,47 +1,23 @@
 version: '3.4'
 
 services:
-  portainer:
-    container_name: portainer
-    restart: always
-    ports:
-      - "8080:8000"
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
- 
-  catalog-api-mongodb:
-    container_name: catalog-api-mongodb
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: testaccount
-      MONGO_INITDB_ROOT_PASSWORD: testaccount
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
 
-  mongo-express:
-    container_name: mongo-express
-    restart: always
-    ports:
-      - "8081:8081"
+# Part of the application
+
+  # Ocelot API Gateway
+  ocelot-api-gateway:
+    container_name: ocelot-api-gateway
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: testaccount
-      ME_CONFIG_MONGODB_ADMINPASSWORD: testaccount
-      ME_CONFIG_MONGODB_SERVER: catalog-api-mongodb
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ElasticConfiguration:Uri=http://elasticsearch:9200"
     depends_on:
-      - catalog-api-mongodb
-    
-  catalog-api-redis:
-    container_name: catalog-api-redis
-    restart: always
+      - catalog-api-webapi
     ports:
-      - "6379:6379" 
-
-  catalog-api-services:
-    container_name: catalog-api-services
+      - "8010:80"
+ 
+  # Catalog API
+  catalog-api-webapi:
+    container_name: catalog-api-webapi
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "DatabaseSettings:ConnectionString=mongodb://testaccount:testaccount@catalog-api-mongodb:27017"
@@ -53,17 +29,65 @@ services:
       - catalog-api-redis
     ports:
       - "8000:80"
-  
-  ocelot-api-gateway:
-    container_name: ocelot-api-gateway
+
+  # Health Check Web Page
+  web-status:
+    container_name: web-status
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ElasticConfiguration:Uri=http://elasticsearch:9200"
-    depends_on:
-      - catalog-api-services
+      - HealthChecksUI__HealthChecks__0__Name=Catalog Health Check
+      - HealthChecksUI__HealthChecks__0__Uri=http://catalog-api-webapi/healthcheck
+      - HealthChecksUI__HealthChecks__1__Name=Ocelot Gateway Health Check
+      - HealthChecksUI__HealthChecks__1__Uri=http://ocelot-api-gateway/healthcheck
     ports:
-      - "8010:80"
+      - "8007:80"
 
+#Part of infrastructure, remove when not needed
+  
+  # Portainer to view docker images
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+      - "8080:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+  
+  # Mongo GUI
+  mongo-express:
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: testaccount
+      ME_CONFIG_MONGODB_ADMINPASSWORD: testaccount
+      ME_CONFIG_MONGODB_SERVER: catalog-api-mongodb
+    depends_on:
+      - catalog-api-mongodb
+  
+  # Redis database
+  catalog-api-redis:
+    container_name: catalog-api-redis
+    restart: always
+    ports:
+      - "6379:6379" 
+
+  # Mongo Database for Catalog API
+  catalog-api-mongodb:
+    container_name: catalog-api-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: testaccount
+      MONGO_INITDB_ROOT_PASSWORD: testaccount
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # Elasticsearch to collect logs
   elasticsearch:
     container_name: elasticsearch
     environment:
@@ -76,6 +100,7 @@ services:
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
 
+  # Kibana to display logs
   kibana:
     container_name: kibana
     environment:
@@ -84,14 +109,3 @@ services:
       - elasticsearch
     ports:
       - "5601:5601"
-
-  webstatus:
-    container_name: webstatus
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - HealthChecksUI__HealthChecks__0__Name=Catalog Health Check
-      - HealthChecksUI__HealthChecks__0__Uri=http://catalog-api-services/healthcheck
-      - HealthChecksUI__HealthChecks__1__Name=Ocelot Gateway Health Check
-      - HealthChecksUI__HealthChecks__1__Uri=http://ocelot-api-gateway/healthcheck
-    ports:
-      - "8007:80"

@@ -1,41 +1,55 @@
 version: '3.4'
 
 services:
-  portainer:
-    image: portainer/portainer-ce
-  
-  mongo-express:
-    image: mongo-express
-  
-  catalog-api-redis:
-    image: redis:alpine
 
-  catalog-api-mongodb:
-    image: mongo
+# Part of the application
 
-  catalog-api-services:
-    image: ${DOCKER_REGISTRY-}catalogapiservices
-    build:
-      context: .
-      dockerfile: Services/Catalog.API/Catalog.API.Services/Dockerfile
-
+  # Ocelot API Gateway
   ocelot-api-gateway:
     image: ${DOCKER_REGISTRY-}ocelotapigateway
     build:
       context: .
       dockerfile: ApiGateways/OcelotApiGateway/Dockerfile
- 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.9.2
+  # Catalog API
+  catalog-api-webapi:
+    image: ${DOCKER_REGISTRY-}catalogapiwebapi
+    build:
+      context: .
+      dockerfile: Services/Catalog.API/Catalog.API.WebApi/Dockerfile
 
-  webstatus:
+  # Health Check Web Page
+  web-status:
     image: ${DOCKER_REGISTRY-}webstatus
     build:
       context: .
       dockerfile: WebApps/WebStatus/Dockerfile
+
+#Part of infrastructure, remove when not needed
+  
+  # Portainer to view docker images
+  portainer:
+    image: portainer/portainer-ce
+  
+  # Mongo GUI
+  mongo-express:
+    image: mongo-express
+  
+  # Redis database
+  catalog-api-redis:
+    image: redis:alpine
+
+  # Mongo Database for Catalog API
+  catalog-api-mongodb:
+    image: mongo
+
+  # Elasticsearch to collect logs
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+
+  # Kibana to display logs
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.9.2
 
 volumes:
   mongo_data:
