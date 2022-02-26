@@ -12,7 +12,7 @@ namespace Catalog.API.DAL.Context
         public IClientSessionHandle Session { get; set; }
         public ProductContext(IOptions<MongoSettings> configuration)
         {
-            MongoClient = new MongoClient(configuration.Value.Connection);
+            MongoClient = new MongoClient(configuration.Value.ConnectionString);
             MongoDatabase = MongoClient.GetDatabase(configuration.Value.DatabaseName);
             Products = MongoDatabase.GetCollection<Product>(configuration.Value.CollectionName);
 

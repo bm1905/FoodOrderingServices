@@ -16,6 +16,7 @@ namespace WebStatus.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("Healthcheck initiated");
             return Redirect("/healthchecks-ui");
         }
 

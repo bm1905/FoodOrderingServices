@@ -1,6 +1,7 @@
 using AutoMapper;
+using Catalog.API.Helpers.Pagination;
+using Catalog.API.Model.DTOs;
 using Catalog.API.Model.Entities;
-using Catalog.API.Model.Models;
 
 namespace Catalog.API.Helpers.AutoMapper
 {
@@ -8,7 +9,11 @@ namespace Catalog.API.Helpers.AutoMapper
     {
         public AutoMapperProfiles()
         {
+            // Entities
             CreateMap<Product, ProductResponse>();
+
+            // Pagination
+            CreateMap<PaginationQuery, PaginationFilter>();
         }
     }
 }

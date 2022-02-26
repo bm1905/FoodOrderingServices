@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Catalog.API.Helpers.Exceptions;
+using Common.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -35,7 +35,7 @@ namespace Catalog.API.Helpers.Middleware
                 context.Response.StatusCode = ex switch
                 {
                     BadRequestException => (int)HttpStatusCode.BadRequest,
-                    AlreadyExistsException => (int)HttpStatusCode.BadRequest,
+                    AlreadyExistsException => (int)HttpStatusCode.Conflict,
                     NotFoundException => (int)HttpStatusCode.NotFound,
                     UnauthorizedException => (int)HttpStatusCode.Unauthorized,
                     InternalServerErrorException => (int)HttpStatusCode.InternalServerError,

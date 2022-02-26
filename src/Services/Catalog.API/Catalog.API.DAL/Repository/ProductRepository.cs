@@ -15,12 +15,21 @@ namespace Catalog.API.DAL.Repository
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-
-        public async Task<IEnumerable<Product>> GetProducts()
+        public async Task<IEnumerable<Product>> GetAllProducts()
         {
             return await _context.Products.Find(p => true).ToListAsync();
         }
 
+        public async Task<long> GetProductsCount()
+        {
+            return await _context.Products.EstimatedDocumentCountAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetPaginatedProducts(int skip, int pageSize)
+        {
+            return await _context.Products.Find(p => true).Skip(skip).Limit(pageSize).ToListAsync();
+        }
+        
         public Task<Product> GetProductById(string productId)
         {
             throw new NotImplementedException();
