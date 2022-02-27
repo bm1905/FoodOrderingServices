@@ -38,7 +38,8 @@ namespace Catalog.API.WebApi.Controllers.v1
         }
 
         [MapToApiVersion("1.0")]
-        [HttpGet("{productId:length(24)}")]
+        //[HttpGet("{productId:length(24)}")]
+        [HttpGet("{productId:length(24)}", Name = "GetProductById")]
         [CacheAttributeFilter(600)]
         [ProducesResponseType(typeof(IEnumerable<ProductResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(NotFoundException), (int)HttpStatusCode.NotFound)]
@@ -75,17 +76,17 @@ namespace Catalog.API.WebApi.Controllers.v1
             return Ok(popularProducts);
         }
 
-        //[MapToApiVersion("1.0")]
-        //[HttpPost]
-        //[ProducesResponseType(typeof(IEnumerable<ProductResponse>), (int)HttpStatusCode.OK)]
-        //[ProducesResponseType(typeof(AlreadyExistsException), (int)HttpStatusCode.Conflict)]
-        //[ProducesResponseType(typeof(UnauthorizedException), (int)HttpStatusCode.Unauthorized)]
-        //[ProducesResponseType(typeof(InternalServerErrorException), (int)HttpStatusCode.InternalServerError)]
-        //public async Task<ActionResult<ProductResponse>> CreateProducts([FromBody] CreateProductRequest product)
-        //{
-        //    PagedResponse<ProductResponse> popularProducts = await _productServices.ProcessGetPopularProductsAsync(paginationQuery);
+        [MapToApiVersion("1.0")]
+        [HttpPost]
+        [ProducesResponseType(typeof(IEnumerable<ProductResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(AlreadyExistsException), (int)HttpStatusCode.Conflict)]
+        [ProducesResponseType(typeof(UnauthorizedException), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(InternalServerErrorException), (int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<ProductResponse>> CreateProducts([FromBody] CreateProductRequest product)
+        {
+            ProductResponse createdProduct = await _productServices.ProcessCreateProductAsync(product);
 
-        //    return Ok(popularProducts);
-        //}
+            return CreatedAtRoute("GetProductById", new { productId = createdProduct.Id }, createdProduct);
+        }
     }
 }

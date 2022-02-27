@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Catalog.API.Application.Models.Validators
 {
-    public class ProductRequestModelValidator : AbstractValidator<ProductRequest>
+    public class ProductRequestModelValidator : AbstractValidator<CreateProductRequest>
     {
         public ProductRequestModelValidator()
         {

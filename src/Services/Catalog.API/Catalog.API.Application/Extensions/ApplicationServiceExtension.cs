@@ -1,8 +1,10 @@
-﻿using Catalog.API.Application.CacheService;
+﻿using System.Reflection;
+using Catalog.API.Application.CacheService;
 using Catalog.API.Application.Configurations;
 using Catalog.API.Application.MappingProfiles;
 using Catalog.API.Application.Services;
 using Catalog.API.Application.UriService;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,8 +35,10 @@ namespace Catalog.API.Application.Extensions
                 // For versions in base url api/v1/....
                 return new UriService.UriService(string.Concat(request?.Scheme, "://", request?.Host.ToUriComponent(), request?.Path));
             });
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
         }
-        
+
         private static void AddRedis(this IServiceCollection services, IConfiguration config)
         {
             var redisCacheSettings = new RedisCacheSettings();

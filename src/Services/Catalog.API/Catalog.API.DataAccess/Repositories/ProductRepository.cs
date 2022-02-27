@@ -62,9 +62,9 @@ namespace Catalog.API.DataAccess.Repositories
             return await _context.Products.Find(p => p.IsPopularProduct).Skip(skip).Limit(pageSize).ToListAsync();
         }
 
-        public Task CreateProduct(Product product)
+        public async Task CreateProduct(Product product)
         {
-            throw new NotImplementedException();
+            await _context.Products.InsertOneAsync(product);
         }
 
         public Task<bool> UpdateProduct(Product product)

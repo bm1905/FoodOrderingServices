@@ -139,5 +139,18 @@ namespace Catalog.API.Application.Services
 
             return PaginationHelper.CreatePaginatedResponse(_uriService, pagination, productResponses);
         }
+
+        public async Task<ProductResponse> ProcessCreateProductAsync(CreateProductRequest product)
+        {
+            Product existingProduct = await _productRepository.GetProductByName(product.Name);
+            if (existingProduct != null)
+                throw new AlreadyExistsException(
+                    $"Product name: {product.Name} already exists! Please select different name!");
+
+            Product mappedProduct = _mapper.Map<Product>(product);
+            await _productRepository.CreateProduct(mappedProduct);
+
+            return _mapper.Map<ProductResponse>(mappedProduct);
+        }
     }
 }

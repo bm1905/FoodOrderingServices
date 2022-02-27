@@ -27,29 +27,29 @@ services:
 
 #Part of infrastructure, remove when not needed
   
-  # Portainer to view docker images
-  portainer:
-    image: portainer/portainer-ce
+  ## Portainer to view docker images
+  #portainer:
+  #  image: portainer/portainer-ce
   
-  # Mongo GUI
-  mongo-express:
-    image: mongo-express
+  ## Mongo GUI
+  #mongo-express:
+  #  image: mongo-express
   
-  # Redis database
-  catalog-api-redis:
-    image: redis:alpine
+  ## Redis database
+  #catalog-api-redis:
+  #  image: redis:alpine
 
-  # Mongo Database for Catalog API
-  catalog-api-mongodb:
-    image: mongo
+  ## Mongo Database for Catalog API
+  #catalog-api-mongodb:
+  #  image: mongo
 
-  # Elasticsearch to collect logs
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+  ## Elasticsearch to collect logs
+  #elasticsearch:
+  #  image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
 
-  # Kibana to display logs
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.9.2
+  ## Kibana to display logs
+  #kibana:
+  #  image: docker.elastic.co/kibana/kibana:7.9.2
 
 volumes:
   mongo_data:
