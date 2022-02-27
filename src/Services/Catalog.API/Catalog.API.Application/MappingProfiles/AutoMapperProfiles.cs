@@ -11,6 +11,7 @@ namespace Catalog.API.Application.MappingProfiles
         {
             // Entities
             CreateMap<Product, ProductResponse>();
+            CreateMap<ProductRequest, Product>();
 
             // Pagination
             CreateMap<PaginationQuery, PaginationFilter>();

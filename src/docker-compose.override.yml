@@ -44,68 +44,68 @@ services:
 
 #Part of infrastructure, remove when not needed
   
-  # Portainer to view docker images
-  portainer:
-    container_name: portainer
-    restart: always
-    ports:
-      - "8080:8000"
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+  ## Portainer to view docker images
+  #portainer:
+  #  container_name: portainer
+  #  restart: always
+  #  ports:
+  #    - "8080:8000"
+  #    - "9000:9000"
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
+  #    - portainer_data:/data
   
-  # Mongo GUI
-  mongo-express:
-    container_name: mongo-express
-    restart: always
-    ports:
-      - "8081:8081"
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: testaccount
-      ME_CONFIG_MONGODB_ADMINPASSWORD: testaccount
-      ME_CONFIG_MONGODB_SERVER: catalog-api-mongodb
-    depends_on:
-      - catalog-api-mongodb
+  ## Mongo GUI
+  #mongo-express:
+  #  container_name: mongo-express
+  #  restart: always
+  #  ports:
+  #    - "8081:8081"
+  #  environment:
+  #    ME_CONFIG_MONGODB_ADMINUSERNAME: testaccount
+  #    ME_CONFIG_MONGODB_ADMINPASSWORD: testaccount
+  #    ME_CONFIG_MONGODB_SERVER: catalog-api-mongodb
+  #  depends_on:
+  #    - catalog-api-mongodb
   
-  # Redis database
-  catalog-api-redis:
-    container_name: catalog-api-redis
-    restart: always
-    ports:
-      - "6379:6379" 
+  ## Redis database
+  #catalog-api-redis:
+  #  container_name: catalog-api-redis
+  #  restart: always
+  #  ports:
+  #    - "6379:6379" 
 
-  # Mongo Database for Catalog API
-  catalog-api-mongodb:
-    container_name: catalog-api-mongodb
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: testaccount
-      MONGO_INITDB_ROOT_PASSWORD: testaccount
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
+  ## Mongo Database for Catalog API
+  #catalog-api-mongodb:
+  #  container_name: catalog-api-mongodb
+  #  restart: always
+  #  environment:
+  #    MONGO_INITDB_ROOT_USERNAME: testaccount
+  #    MONGO_INITDB_ROOT_PASSWORD: testaccount
+  #  ports:
+  #    - "27017:27017"
+  #  volumes:
+  #    - mongo_data:/data/db
 
-  # Elasticsearch to collect logs
-  elasticsearch:
-    container_name: elasticsearch
-    environment:
-      - xpack.monitoring.enabled=true
-      - xpack.watcher.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=single-node
-    ports:
-      - "9200:9200"
-    volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
+  ## Elasticsearch to collect logs
+  #elasticsearch:
+  #  container_name: elasticsearch
+  #  environment:
+  #    - xpack.monitoring.enabled=true
+  #    - xpack.watcher.enabled=false
+  #    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #    - discovery.type=single-node
+  #  ports:
+  #    - "9200:9200"
+  #  volumes:
+  #    - elasticsearch-data:/usr/share/elasticsearch/data
 
-  # Kibana to display logs
-  kibana:
-    container_name: kibana
-    environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-    depends_on:
-      - elasticsearch
-    ports:
-      - "5601:5601"
+  ## Kibana to display logs
+  #kibana:
+  #  container_name: kibana
+  #  environment:
+  #    - ELASTICSEARCH_URL=http://elasticsearch:9200
+  #  depends_on:
+  #    - elasticsearch
+  #  ports:
+  #    - "5601:5601"

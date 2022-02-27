@@ -7,6 +7,7 @@ using Catalog.API.Application.Extensions;
 using Catalog.API.DataAccess.Extensions;
 using Catalog.API.WebApi.Extensions;
 using Catalog.API.WebApi.Middlewares;
+using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -26,7 +27,11 @@ namespace Catalog.API.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDataAccessServices(_config).AddApplicationServices(_config).AddWebApiServices(_config);
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(s =>
+                {
+                    s.RegisterValidatorsFromAssemblyContaining<Startup>();
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

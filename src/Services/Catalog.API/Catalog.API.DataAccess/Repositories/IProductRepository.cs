@@ -14,6 +14,7 @@ namespace Catalog.API.DataAccess.Repositories
         Task<IEnumerable<Product>> GetProductsByCategory(string categoryName);
         Task<IEnumerable<Product>> GetPaginatedProductsByCategory(int skip, int pageSize, string categoryName);
         Task<IEnumerable<Product>> GetPopularProducts();
+        Task<IEnumerable<Product>> GetPaginatedPopularProducts(int skip, int pageSize);
         Task CreateProduct(Product product);
         Task<bool> UpdateProduct(Product product);
         Task<bool> DeleteProduct(string id);
