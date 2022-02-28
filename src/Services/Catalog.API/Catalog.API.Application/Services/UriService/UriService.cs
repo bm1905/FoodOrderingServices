@@ -2,7 +2,7 @@
 using Catalog.API.Application.Models.Pagination;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace Catalog.API.Application.UriService
+namespace Catalog.API.Application.Services.UriService
 {
     public class UriService : IUriService
     {

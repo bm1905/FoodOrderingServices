@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Catalog.API.Core.Entities;
 using Catalog.API.DataAccess.Persistence;
@@ -67,34 +68,42 @@ namespace Catalog.API.DataAccess.Repositories
             await _context.Products.InsertOneAsync(product);
         }
 
-        public Task<bool> UpdateProduct(Product product)
+        public async Task<bool> UpdateProduct(Product product)
         {
-            throw new NotImplementedException();
+            ReplaceOneResult updateResult =
+                await _context.Products.ReplaceOneAsync(filter: g => g.Id == product.Id, replacement: product);
+
+            return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
         }
 
-        public Task<bool> DeleteProduct(string id)
+        public async Task<bool> DeleteProduct(string productId)
         {
-            throw new NotImplementedException();
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(p => p.Id, productId);
+            DeleteResult deleteResult = await _context.Products.DeleteOneAsync(filter);
+
+            return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }
 
-        public Task<ProductPhoto> GetProductPhotoById(string photoId)
+        public async Task SetMainPhoto(string productPhotoId, string productId)
         {
-            throw new NotImplementedException();
+            // Find the main photo and set it to false
+            await _context.Products.FindOneAndUpdateAsync(
+                c => c.Id == productId && c.ProductPhotos.Any(s => s.IsMain == true),
+                Builders<Product>.Update.Set(c => c.ProductPhotos[-1].IsMain, false));
+
+            // Set given photo to be main
+            await _context.Products.FindOneAndUpdateAsync(
+                c => c.Id == productId && c.ProductPhotos.Any(s => s.Id == productPhotoId),
+                Builders<Product>.Update.Set(c => c.ProductPhotos[-1].IsMain, true));
         }
 
-        public Task AddProductPhoto(ProductPhoto productPhoto)
+        public async Task<bool> RemovePhotoFromProduct(string productPhotoId, string productId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SetMainPhoto(string photoId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveProductPhoto(string photoId)
-        {
-            throw new NotImplementedException();
+            var filter = Builders<Product>.Filter.Where(x => x.Id == productId);
+            var update = Builders<Product>.Update.PullFilter(x => x.ProductPhotos, 
+                Builders<ProductPhoto>.Filter.Where(p => p.Id == productPhotoId));
+            var updateResult = await _context.Products.UpdateOneAsync(filter, update);
+            return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
         }
     }
 }

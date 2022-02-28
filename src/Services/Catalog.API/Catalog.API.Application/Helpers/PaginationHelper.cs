@@ -2,7 +2,7 @@
 using System.Linq;
 using Catalog.API.Application.Models.DTOs;
 using Catalog.API.Application.Models.Pagination;
-using Catalog.API.Application.UriService;
+using Catalog.API.Application.Services.UriService;
 
 namespace Catalog.API.Application.Helpers
 {

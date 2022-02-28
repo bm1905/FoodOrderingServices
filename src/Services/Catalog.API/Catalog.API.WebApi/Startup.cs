@@ -17,16 +17,18 @@ namespace Catalog.API.WebApi
     public class Startup
     {
         private readonly IConfiguration _config;
+        private readonly IWebHostEnvironment _env;
 
-        public Startup(IConfiguration config)
+        public Startup(IConfiguration config, IWebHostEnvironment env)
         {
             _config = config;
+            _env = env;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDataAccessServices(_config).AddApplicationServices(_config).AddWebApiServices(_config);
+            services.AddDataAccessServices(_config).AddApplicationServices(_config, _env).AddWebApiServices(_config);
             services.AddControllers()
                 .AddFluentValidation(s =>
                 {
@@ -51,6 +53,8 @@ namespace Catalog.API.WebApi
                     }
                 });
             }
+
+            app.UseMiddleware<PerformanceMiddleware>();
 
             app.UseMiddleware<ExceptionMiddleware>();
 

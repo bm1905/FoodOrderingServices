@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 
-namespace Catalog.API.Application.CacheService
+namespace Catalog.API.Application.Services.CacheService
 {
     public class ResponseCacheService : IResponseCacheService
     {

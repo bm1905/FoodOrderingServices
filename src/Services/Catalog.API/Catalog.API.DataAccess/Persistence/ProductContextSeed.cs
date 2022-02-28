@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Catalog.API.Core.Entities;
 using MongoDB.Driver;
 
@@ -21,92 +22,54 @@ namespace Catalog.API.DataAccess.Persistence
             {
                 new()
                 {
-                    Id = "602d2149e773f2a3990b47f5",
+                    Id = "621c2d222b0f522a70755f17",
                     Name = "Chicken Stew",
                     Detail = "This is the description for Chicken Stew.",
-                    Price = 150.00,
+                    Price = 150,
                     IsAvailable = true,
                     IsPopularProduct = true,
                     Category = "Meat",
-                    Rating = 5
+                    Rating = 5,
+                    ProductPhotos = new List<ProductPhoto>()
+                    {
+                        new()
+                        {
+                            Url = "https://res.cloudinary.com/bm1905/image/upload/v1646013730/food-service/Development/Meat/itlmsbfqrcrhmttzwgma.jpg",
+                            IsMain = true,
+                            PublicId = "food-service/Development/Meat/itlmsbfqrcrhmttzwgma",
+                            CreatedBy = "System",
+                            CreatedOn = DateTime.UtcNow,
+                            UpdatedBy = "System",
+                            UpdatedOn = DateTime.UtcNow,
+                            Id = "621c2d222b0f522a70755f16"
+                        }
+                    }
                 },
                 new()
                 {
-                    Id = "602d2149e773f2a3990b47f6",
+                    Id = "621c2f372b0f522a70755f19",
                     Name = "Fried Okra",
                     Detail = "This is the description for Fried Okra.",
-                    Price = 90.00,
-                    IsAvailable = true,
-                    IsPopularProduct = false,
-                    Category = "Vegetable",
-                    Rating = 3
-                },
-                new()
-                {
-                    Id = "602d2149e773f2a3990b47f7",
-                    Name = "Fried Chicken",
-                    Detail = "This is the description for Fried Chicken.",
-                    Price = 190.00,
-                    IsAvailable = true,
-                    IsPopularProduct = false,
-                    Category = "Meat",
-                    Rating = 3
-                },
-                new()
-                {
-                    Id = "602d2149e773f2a3990b47f8",
-                    Name = "Vegetable Stew",
-                    Detail = "This is the description for Vegetable Stew.",
-                    Price = 40.00,
-                    IsAvailable = true,
-                    IsPopularProduct = false,
-                    Category = "Vegetable",
-                    Rating = 3
-                },
-                new()
-                {
-                    Id = "602d2149e773f2a3990b47f9",
-                    Name = "Chicken Stew 1",
-                    Detail = "This is the description for Chicken Stew.",
-                    Price = 150.00,
+                    Price = 90,
                     IsAvailable = true,
                     IsPopularProduct = true,
-                    Category = "Meat",
-                    Rating = 5
-                },
-                new()
-                {
-                    Id = "602d2149e773f2a3990b47f0",
-                    Name = "Fried Okra 1",
-                    Detail = "This is the description for Fried Okra.",
-                    Price = 90.00,
-                    IsAvailable = true,
-                    IsPopularProduct = false,
                     Category = "Vegetable",
-                    Rating = 3
+                    Rating = 3,
+                    ProductPhotos = new List<ProductPhoto>()
+                    {
+                        new()
+                        {
+                            Url = "https://res.cloudinary.com/bm1905/image/upload/v1646014263/food-service/Development/Vegetable/fz8nkv3vwm0gesybv8us.jpg",
+                            IsMain = true,
+                            PublicId = "food-service/Development/Vegetable/fz8nkv3vwm0gesybv8us",
+                            CreatedBy = "System",
+                            CreatedOn = DateTime.UtcNow,
+                            UpdatedBy = "System",
+                            UpdatedOn = DateTime.UtcNow,
+                            Id = "621c2f372b0f522a70755f18"
+                        }
+                    }
                 },
-                new()
-                {
-                    Id = "602d2149e773f2a3990b47f1",
-                    Name = "Fried Chicken 12",
-                    Detail = "This is the description for Fried Chicken.",
-                    Price = 190.00,
-                    IsAvailable = true,
-                    IsPopularProduct = false,
-                    Category = "Meat",
-                    Rating = 3
-                },
-                new()
-                {
-                    Id = "602d2149e773f2a3990b47f2",
-                    Name = "Vegetable Stew 2",
-                    Detail = "This is the description for Vegetable Stew.",
-                    Price = 40.00,
-                    IsAvailable = true,
-                    IsPopularProduct = false,
-                    Category = "Vegetable",
-                    Rating = 3
-                }
             };
         }
     }

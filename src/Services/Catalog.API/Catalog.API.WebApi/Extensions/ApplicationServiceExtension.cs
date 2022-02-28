@@ -58,7 +58,7 @@ namespace Catalog.API.WebApi.Extensions
 
             services.AddSwaggerGenNewtonsoftSupport();
 
-            services.AddSwaggerGen(options =>
+            services.AddSwaggerGen(_ =>
             {
                 // options
             });
