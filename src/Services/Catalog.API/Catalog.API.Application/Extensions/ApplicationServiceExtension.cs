@@ -1,10 +1,12 @@
 ﻿using System.Reflection;
-using Catalog.API.Application.CacheService;
 using Catalog.API.Application.Configurations;
 using Catalog.API.Application.MappingProfiles;
-using Catalog.API.Application.Services;
-using Catalog.API.Application.UriService;
+using Catalog.API.Application.Services.CacheService;
+using Catalog.API.Application.Services.PhotoService;
+using Catalog.API.Application.Services.ProductService;
+using Catalog.API.Application.Services.UriService;
 using FluentValidation;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,10 +16,11 @@ namespace Catalog.API.Application.Extensions
 {
     public static class ApplicationServiceExtension
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config, IWebHostEnvironment env)
         {
             services.AddServices();
             services.AddRedis(config);
+            services.AddCloudinary(config, env);
             services.RegisterAutoMapper();
 
             return services;
@@ -26,14 +29,15 @@ namespace Catalog.API.Application.Extensions
         private static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IProductServices, ProductServices>();
+            services.AddScoped<IPhotoService, PhotoService>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<IUriService, UriService.UriService>(provider =>
+            services.AddTransient<IUriService, UriService>(provider =>
             {
                 var accessor = provider.GetRequiredService<IHttpContextAccessor>();
                 var request = accessor?.HttpContext?.Request;
 
                 // For versions in base url api/v1/....
-                return new UriService.UriService(string.Concat(request?.Scheme, "://", request?.Host.ToUriComponent(), request?.Path));
+                return new UriService(string.Concat(request?.Scheme, "://", request?.Host.ToUriComponent(), request?.Path));
             });
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
@@ -49,6 +53,18 @@ namespace Catalog.API.Application.Extensions
                 services.AddStackExchangeRedisCache(options => options.Configuration = redisCacheSettings.ConnectionString);
                 services.AddSingleton<IResponseCacheService, ResponseCacheService>();
             }
+        }
+
+        private static void AddCloudinary(this IServiceCollection services, IConfiguration config, IWebHostEnvironment env)
+        {
+            services.Configure<CloudinarySettings>(options =>
+            {
+                options.Environment = env.EnvironmentName;
+                options.CloudName = config.GetSection("CloudinarySettings:CloudName").Value;
+                options.ApiKey = config.GetSection("CloudinarySettings:ApiKey").Value;
+                options.ApiSecret = config.GetSection("CloudinarySettings:ApiSecret").Value;
+
+            });
         }
 
         private static void RegisterAutoMapper(this IServiceCollection services)

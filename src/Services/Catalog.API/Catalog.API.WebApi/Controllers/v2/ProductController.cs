@@ -4,8 +4,9 @@ using System.Net;
 using System.Threading.Tasks;
 using Catalog.API.Application.Exceptions;
 using Catalog.API.Application.Models.DTOs;
+using Catalog.API.Application.Models.DTOs.Products;
 using Catalog.API.Application.Models.Pagination;
-using Catalog.API.Application.Services;
+using Catalog.API.Application.Services.ProductService;
 using Catalog.API.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 

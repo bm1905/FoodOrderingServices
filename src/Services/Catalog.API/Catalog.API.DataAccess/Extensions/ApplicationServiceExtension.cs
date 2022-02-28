@@ -29,7 +29,7 @@ namespace Catalog.API.DataAccess.Extensions
             {
                 options.ConnectionString = config.GetSection("DatabaseSettings:ConnectionString").Value;
                 options.DatabaseName = config.GetSection("DatabaseSettings:DatabaseName").Value;
-                options.CollectionName = config.GetSection("DatabaseSettings:CollectionName").Value;
+                options.ProductCollectionName = config.GetSection("DatabaseSettings:ProductCollectionName").Value;
             });
 
             services.AddScoped<IProductContext, ProductContext>();

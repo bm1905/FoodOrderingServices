@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Catalog.API.Application.CacheService;
 using Catalog.API.Application.Configurations;
+using Catalog.API.Application.Services.CacheService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

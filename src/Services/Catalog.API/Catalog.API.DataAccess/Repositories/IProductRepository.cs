@@ -18,9 +18,7 @@ namespace Catalog.API.DataAccess.Repositories
         Task CreateProduct(Product product);
         Task<bool> UpdateProduct(Product product);
         Task<bool> DeleteProduct(string id);
-        Task<ProductPhoto> GetProductPhotoById(string photoId);
-        Task AddProductPhoto(ProductPhoto productPhoto);
-        Task<bool> SetMainPhoto(string photoId);
-        void RemoveProductPhoto(string photoId);
+        Task SetMainPhoto(string productPhotoId, string productId);
+        Task<bool> RemovePhotoFromProduct(string productPhotoId, string productId);
     }
 }

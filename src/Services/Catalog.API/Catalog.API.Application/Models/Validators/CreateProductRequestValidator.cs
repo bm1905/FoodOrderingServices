@@ -1,12 +1,16 @@
-﻿using Catalog.API.Application.Models.DTOs;
+﻿using Catalog.API.Application.Models.DTOs.Products;
 using FluentValidation;
 
 namespace Catalog.API.Application.Models.Validators
 {
-    public class ProductRequestModelValidator : AbstractValidator<CreateProductRequest>
+    public class CreateProductRequestValidator : AbstractValidator<CreateProductRequest>
     {
-        public ProductRequestModelValidator()
+        public CreateProductRequestValidator()
         {
+            RuleFor(model => model.ProductPhoto)
+                .NotEmpty()
+                .NotNull()
+                .WithMessage("Product photo is missing!");
             RuleFor(model => model.Name)
                 .NotEmpty().WithMessage("Name should not be empty!");
             RuleFor(model => model.Detail)
@@ -14,9 +18,9 @@ namespace Catalog.API.Application.Models.Validators
             RuleFor(model => model.Price)
                 .NotEmpty().WithMessage("Price should not be empty!");
             RuleFor(model => model.IsAvailable)
-                .NotEmpty().WithMessage("Is available should not be empty!");
+                .NotNull().WithMessage("Is available should not be empty!");
             RuleFor(model => model.IsPopularProduct)
-                .NotEmpty().WithMessage("Is popular product should not be empty!");
+                .NotNull().WithMessage("Is popular product should not be empty!");
             RuleFor(model => model.Category)
                 .NotEmpty().WithMessage("Category should not be empty!");
             RuleFor(model => model.Rating)
