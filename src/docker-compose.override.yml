@@ -23,6 +23,9 @@ services:
       - "DatabaseSettings:ConnectionString=mongodb://testaccount:testaccount@catalog-api-mongodb:27017"
       - "RedisCacheSettings:ConnectionString=catalog-api-redis:6379"
       - "RedisCacheSettings:Enabled=true"
+      - "CloudinarySettings:CloudName=bm1905"
+      - "CloudinarySettings:ApiKey=775337597596952"
+      - "CloudinarySettings:ApiSecret=VZjkwbzwtqA2LMVJJ2jNd2RsKZ8"
       - "ElasticConfiguration:Uri=http://elasticsearch:9200"
     depends_on:
       - catalog-api-mongodb
