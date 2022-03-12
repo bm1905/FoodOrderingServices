@@ -13,6 +13,7 @@ namespace Catalog.API.WebApi.Extensions
         public static IServiceCollection AddWebApiServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddSwaggerVersions();
+            // services.AddSecurity();
             services.AddHealthChecks(config);
             return services;
         }
@@ -26,6 +27,16 @@ namespace Catalog.API.WebApi.Extensions
                 .AddRedis(config.GetSection("RedisCacheSettings:ConnectionString").Value,
                     "Catalog API Redis Health",
                     HealthStatus.Degraded);
+        }
+
+        public static void AddSecurity(this IServiceCollection services)
+        {
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", config =>
+                {
+                    config.Authority = "http://localhost:5010";
+                    config.Audience = "Catalog.API";
+                });
         }
 
         public static void AddSwaggerVersions(this IServiceCollection services)

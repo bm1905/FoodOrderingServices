@@ -26,6 +26,7 @@ namespace Catalog.API.WebApi.Controllers.v1
             _productServices = productServices ?? throw new ArgumentNullException(nameof(productServices));
         }
 
+        // [Authorize]
         [MapToApiVersion("1.0")]
         [HttpGet]
         [CacheAttributeFilter(600)]
