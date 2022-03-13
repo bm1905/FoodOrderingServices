@@ -48,11 +48,13 @@ namespace Catalog.API.Application.Extensions
             var redisCacheSettings = new RedisCacheSettings();
             config.GetSection(nameof(RedisCacheSettings)).Bind(redisCacheSettings);
             services.AddSingleton(redisCacheSettings);
-            if (redisCacheSettings.Enabled)
+            if (!redisCacheSettings.Enabled) return;
+
+            services.AddStackExchangeRedisCache(options =>
             {
-                services.AddStackExchangeRedisCache(options => options.Configuration = redisCacheSettings.ConnectionString);
-                services.AddSingleton<IResponseCacheService, ResponseCacheService>();
-            }
+                options.Configuration = redisCacheSettings.ConnectionString;
+            });
+            services.AddSingleton<IResponseCacheService, ResponseCacheService>();
         }
 
         private static void AddCloudinary(this IServiceCollection services, IConfiguration config, IWebHostEnvironment env)
@@ -63,7 +65,6 @@ namespace Catalog.API.Application.Extensions
                 options.CloudName = config.GetSection("CloudinarySettings:CloudName").Value;
                 options.ApiKey = config.GetSection("CloudinarySettings:ApiKey").Value;
                 options.ApiSecret = config.GetSection("CloudinarySettings:ApiSecret").Value;
-
             });
         }
 

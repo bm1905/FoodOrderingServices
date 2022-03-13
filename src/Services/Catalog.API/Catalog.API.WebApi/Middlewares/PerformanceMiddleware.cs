@@ -30,7 +30,7 @@ namespace Catalog.API.WebApi.Middlewares
             sw.Stop();
 
             if (performanceTimeLog < sw.ElapsedMilliseconds)
-                _logger.LogWarning("Request {method} {path} took about {elapsed} ms",
+                _logger.LogWarning("Request {Method} {Path} took about {Elapsed} ms",
                     context.Request.Method,
                     context.Request.Path.Value,
                     sw.ElapsedMilliseconds);
