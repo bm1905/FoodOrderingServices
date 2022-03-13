@@ -9,6 +9,7 @@ using Catalog.API.Application.Models.DTOs.Products;
 using Catalog.API.Application.Models.Pagination;
 using Catalog.API.Application.Services.ProductService;
 using Catalog.API.WebApi.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.API.WebApi.Controllers.v1
@@ -26,7 +27,7 @@ namespace Catalog.API.WebApi.Controllers.v1
             _productServices = productServices ?? throw new ArgumentNullException(nameof(productServices));
         }
 
-        // [Authorize]
+        [Authorize("ClientIdPolicy")]
         [MapToApiVersion("1.0")]
         [HttpGet]
         [CacheAttributeFilter(600)]

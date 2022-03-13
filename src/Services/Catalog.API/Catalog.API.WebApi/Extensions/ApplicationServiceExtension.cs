@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Catalog.API.WebApi.Extensions
@@ -13,12 +14,12 @@ namespace Catalog.API.WebApi.Extensions
         public static IServiceCollection AddWebApiServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddSwaggerVersions();
-            // services.AddSecurity();
+            services.AddSecurity();
             services.AddHealthChecks(config);
             return services;
         }
 
-        public static void AddHealthChecks(this IServiceCollection services, IConfiguration config)
+        private static void AddHealthChecks(this IServiceCollection services, IConfiguration config)
         {
             services.AddHealthChecks()
                 .AddMongoDb(config.GetSection("DatabaseSettings:ConnectionString").Value,
@@ -29,17 +30,30 @@ namespace Catalog.API.WebApi.Extensions
                     HealthStatus.Degraded);
         }
 
-        public static void AddSecurity(this IServiceCollection services)
+        private static void AddSecurity(this IServiceCollection services)
         {
             services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", config =>
+                .AddJwtBearer("Bearer", options =>
                 {
-                    config.Authority = "http://localhost:5010";
-                    config.Audience = "Catalog.API";
+                    options.Authority = "http://localhost:5011/";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        RoleClaimType = "role"
+                        
+                    };
+                    options.RequireHttpsMetadata = false;
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ClientIdPolicy", policy => 
+                    policy.RequireClaim("client_id", "test_1_client", "postman_client"));
+                options.AddPolicy("Admin", policy => policy.RequireClaim("role", "admin"));
+            });
         }
 
-        public static void AddSwaggerVersions(this IServiceCollection services)
+        private static void AddSwaggerVersions(this IServiceCollection services)
         {
             // Swagger extensions
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();

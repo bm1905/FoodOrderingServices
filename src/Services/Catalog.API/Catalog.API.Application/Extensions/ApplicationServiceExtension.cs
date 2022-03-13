@@ -53,7 +53,6 @@ namespace Catalog.API.Application.Extensions
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = redisCacheSettings.ConnectionString;
-                
             });
             services.AddSingleton<IResponseCacheService, ResponseCacheService>();
         }
@@ -66,7 +65,6 @@ namespace Catalog.API.Application.Extensions
                 options.CloudName = config.GetSection("CloudinarySettings:CloudName").Value;
                 options.ApiKey = config.GetSection("CloudinarySettings:ApiKey").Value;
                 options.ApiSecret = config.GetSection("CloudinarySettings:ApiSecret").Value;
-
             });
         }
 
