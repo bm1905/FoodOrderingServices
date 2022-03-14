@@ -26,8 +26,7 @@ namespace Catalog.API.WebApi.Controllers.v1
         {
             _productServices = productServices ?? throw new ArgumentNullException(nameof(productServices));
         }
-
-        [Authorize("ClientIdPolicy")]
+        
         [MapToApiVersion("1.0")]
         [HttpGet]
         [CacheAttributeFilter(600)]
@@ -67,6 +66,7 @@ namespace Catalog.API.WebApi.Controllers.v1
             return Ok(products);
         }
 
+        [Authorize(Roles = "Admin")]
         [MapToApiVersion("1.0")]
         [HttpGet("[action]")]
         [CacheAttributeFilter(600)]
@@ -80,6 +80,7 @@ namespace Catalog.API.WebApi.Controllers.v1
             return Ok(popularProducts);
         }
 
+        [Authorize(Roles = "Admin")]
         [MapToApiVersion("1.0")]
         [HttpPost]
         [ProducesResponseType(typeof(IEnumerable<ProductResponse>), (int)HttpStatusCode.OK)]
@@ -93,6 +94,7 @@ namespace Catalog.API.WebApi.Controllers.v1
             return CreatedAtRoute("GetProductById", new { productId = createdProduct.Id }, createdProduct);
         }
 
+        [Authorize(Roles = "Admin")]
         [MapToApiVersion("1.0")]
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(ProductPhotoResponse), (int)HttpStatusCode.OK)]
@@ -105,6 +107,7 @@ namespace Catalog.API.WebApi.Controllers.v1
             return Ok(photo);
         }
 
+        [Authorize(Roles = "Admin")]
         [MapToApiVersion("1.0")]
         [HttpDelete("{productId:length(24)}")]
         [ProducesResponseType(typeof(ActionResult), (int)HttpStatusCode.OK)]
@@ -116,6 +119,7 @@ namespace Catalog.API.WebApi.Controllers.v1
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [MapToApiVersion("1.0")]
         [HttpDelete("DeleteProductPhoto")]
         [ProducesResponseType(typeof(ActionResult), (int)HttpStatusCode.OK)]
@@ -127,6 +131,7 @@ namespace Catalog.API.WebApi.Controllers.v1
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [MapToApiVersion("1.0")]
         [HttpPut("SetMainPhoto")]
         [ProducesResponseType(typeof(ActionResult), (int)HttpStatusCode.OK)]
@@ -138,6 +143,7 @@ namespace Catalog.API.WebApi.Controllers.v1
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [MapToApiVersion("1.0")]
         [HttpPut("[action]/{productId:length(24)}")]
         [ProducesResponseType(typeof(ActionResult<ProductPhotoResponse>), (int)HttpStatusCode.OK)]

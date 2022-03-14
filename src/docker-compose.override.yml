@@ -33,6 +33,17 @@ services:
     ports:
       - "8000:80"
 
+  # Identity Server
+  identity-server:
+    container_name: identity-server
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=Server=identity-server-sqldb;Database=IdentityServer;User Id=sa;Password=testaccount123;"
+    depends_on:
+      - identity-server-sqldb
+    ports:
+      - "8011:80"
+        
   # Health Check Web Page
   web-status:
     container_name: web-status
@@ -42,6 +53,8 @@ services:
       - HealthChecksUI__HealthChecks__0__Uri=http://catalog-api-webapi/healthcheck
       - HealthChecksUI__HealthChecks__1__Name=Ocelot Gateway Health Check
       - HealthChecksUI__HealthChecks__1__Uri=http://ocelot-api-gateway/healthcheck
+      - HealthChecksUI__HealthChecks__2__Name=Identity Server Health Check
+      - HealthChecksUI__HealthChecks__2__Uri=http://identity-server/healthcheck
     ports:
       - "8007:80"
 
@@ -89,7 +102,17 @@ services:
   #    - "27017:27017"
   #  volumes:
   #    - mongo_data:/data/db
-
+  
+  ## SQL Server Database for Identity Server
+  #identity-server-sqldb:
+  #  container_name: identity-server-sqldb
+  #  environment:
+  #    SA_PASSWORD: "testaccount123"
+  #    ACCEPT_EULA: "Y"
+  #  restart: always
+  #  ports:
+  #    - "1433:1433"
+        
   ## Elasticsearch to collect logs
   #elasticsearch:
   #  container_name: elasticsearch

@@ -20,6 +20,7 @@ APIs for Food Ordering Service
 `5007/8007 - Health Check`    
 `5010/8010 - API Gateway`  
 `5011/8011 - Identity Server`  
+`5012/8012 - Test MVC Client`  
 
 ## Reserved Ports for Docker
 `5601 - Kibana GUI`  
@@ -31,7 +32,8 @@ APIs for Food Ordering Service
 
 # Quick Links for Docker
 ## APIs
-Catalog Service API - http://host.docker.internal:8000
+Catalog Service API - http://host.docker.internal:8000  
+Identity Server API/UI - http://host.docker.internal:8011  
 
 ## GUIs
 Portainer - http://host.docker.internal:9000  
@@ -40,6 +42,7 @@ Kibana - http://host.docker.internal:5601
 
 ## Services
 Catalog Database - http://host.docker.internal:27017  
+Identity Server Database - http://host.docker.internal:1433  
 Catalog API Redis - http://host.docker.internal:6379  
 Gateway - http://host.docker.internal:8010  
 Elasticsearch - http://host.docker.internal:9200  

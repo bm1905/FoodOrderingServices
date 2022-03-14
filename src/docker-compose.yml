@@ -18,6 +18,13 @@ services:
       context: .
       dockerfile: Services/Catalog.API/Catalog.API.WebApi/Dockerfile
 
+  # Identity Server
+  identity-server:
+    image: ${DOCKER_REGISTRY-}identityserver
+    build:
+      context: .
+      dockerfile: IdentityServer/IdentityServer/Dockerfile
+      
   # Health Check Web Page
   web-status:
     image: ${DOCKER_REGISTRY-}webstatus
@@ -43,6 +50,9 @@ services:
   #catalog-api-mongodb:
   #  image: mongo
 
+  #identity-server-sqldb:
+  #  image: mcr.microsoft.com/mssql/server:2017-latest
+  
   ## Elasticsearch to collect logs
   #elasticsearch:
   #  image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
