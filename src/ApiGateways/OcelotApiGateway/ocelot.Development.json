@@ -1,27 +1,29 @@
 {
   "Routes": [
-    //Product API
     {
       "DownstreamPathTemplate": "/api/v1/Product",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "catalog-api-webapi",
-          "Port": "80"
+          "Host": "localhost",
+          "Port": "5000"
         }
       ],
       "UpstreamPathTemplate": "/Product",
       "UpstreamHttpMethod": [ "GET", "POST" ],
-      "FileCacheOptions": { "TtlSeconds": 30 }
+      "FileCacheOptions": { "TtlSeconds": 30 },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      }
     }
-    //Basket API
-
-    //Discount API
-
-    //Order API
-
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5010"
+    "BaseUrl": "http://localhost:5010",
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 5000,
+      "Type": "Consul"
+    }
   }
 }

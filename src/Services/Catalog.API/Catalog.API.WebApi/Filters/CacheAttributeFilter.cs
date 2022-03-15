@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Catalog.API.WebApi.Filters
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class CacheAttributeFilter : Attribute, IAsyncActionFilter
     {
         private readonly int _timeToLiveInSeconds;

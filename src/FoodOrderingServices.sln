@@ -13,23 +13,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityServer", "{9450755D-DC3D-4721-95A2-86C7A84250F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.API.WebApi", "Services\Catalog.API\Catalog.API.WebApi\Catalog.API.WebApi.csproj", "{8A60D0EC-5B25-4120-ADC0-619568DBA8C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.API.WebApi", "Services\Catalog.API\Catalog.API.WebApi\Catalog.API.WebApi.csproj", "{8A60D0EC-5B25-4120-ADC0-619568DBA8C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.API.Application", "Services\Catalog.API\Catalog.API.Application\Catalog.API.Application.csproj", "{04B6EA30-8553-4179-B742-7AF715E59E16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.API.Application", "Services\Catalog.API\Catalog.API.Application\Catalog.API.Application.csproj", "{04B6EA30-8553-4179-B742-7AF715E59E16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.API.Core", "Services\Catalog.API\Catalog.API.Core\Catalog.API.Core.csproj", "{AA833701-E14D-4A4A-A7BB-FAE8F68A2DAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.API.Core", "Services\Catalog.API\Catalog.API.Core\Catalog.API.Core.csproj", "{AA833701-E14D-4A4A-A7BB-FAE8F68A2DAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.API.DataAccess", "Services\Catalog.API\Catalog.API.DataAccess\Catalog.API.DataAccess.csproj", "{A1A9191A-7B0E-4E46-81CF-3DA605050928}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.API.DataAccess", "Services\Catalog.API\Catalog.API.DataAccess\Catalog.API.DataAccess.csproj", "{A1A9191A-7B0E-4E46-81CF-3DA605050928}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Logging", "BuildingBlocks\Common.Logging\Common.Logging.csproj", "{9FCC3C79-F194-4555-974C-26F1FB2339D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Logging", "BuildingBlocks\Common.Logging\Common.Logging.csproj", "{9FCC3C79-F194-4555-974C-26F1FB2339D1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{9F229700-6060-4792-A30D-8A67D3809394}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStatus", "WebApps\WebStatus\WebStatus.csproj", "{2FD62E53-F008-4C6E-A0AD-03FCF7115039}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStatus", "WebApps\WebStatus\WebStatus.csproj", "{2FD62E53-F008-4C6E-A0AD-03FCF7115039}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotApiGateway", "ApiGateways\OcelotApiGateway\OcelotApiGateway.csproj", "{653ED1C8-6080-4765-893A-C8F79B7E4DB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotApiGateway", "ApiGateways\OcelotApiGateway\OcelotApiGateway.csproj", "{653ED1C8-6080-4765-893A-C8F79B7E4DB6}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{37916EE9-F65F-4F51-A942-FE3E2182A46E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "IdentityServer\IdentityServer\IdentityServer.csproj", "{E644AF5D-4AE8-4D40-A688-2DD6E2BDF63C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{37916EE9-F65F-4F51-A942-FE3E2182A46E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37916EE9-F65F-4F51-A942-FE3E2182A46E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37916EE9-F65F-4F51-A942-FE3E2182A46E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E644AF5D-4AE8-4D40-A688-2DD6E2BDF63C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E644AF5D-4AE8-4D40-A688-2DD6E2BDF63C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E644AF5D-4AE8-4D40-A688-2DD6E2BDF63C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E644AF5D-4AE8-4D40-A688-2DD6E2BDF63C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{9FCC3C79-F194-4555-974C-26F1FB2339D1} = {698D9202-CDC4-404D-9B6E-ABABEF885C9A}
 		{2FD62E53-F008-4C6E-A0AD-03FCF7115039} = {9F229700-6060-4792-A30D-8A67D3809394}
 		{653ED1C8-6080-4765-893A-C8F79B7E4DB6} = {5A6DD563-A4B0-41BE-9A07-BDDDA70BB202}
+		{E644AF5D-4AE8-4D40-A688-2DD6E2BDF63C} = {9450755D-DC3D-4721-95A2-86C7A84250F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C4348E24-288B-442E-9E6E-2420CF89FB69}
