@@ -19,8 +19,7 @@ APIs for Food Ordering Service
 `5000/8000 - Catalog API`  
 `5007/8007 - Health Check`    
 `5010/8010 - API Gateway`  
-`5011/8011 - Identity Server`  
-`5012/8012 - Test MVC Client`  
+`5011/8011 - Identity Server`   
 
 ## Reserved Ports for Docker
 `5601 - Kibana GUI`  

@@ -1,9 +1,7 @@
-using IdentityServer.DbContext;
-using IdentityServer.Extensions;
-using IdentityServer.Initializer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Common.Logging;
+using Serilog;
 
 namespace IdentityServer
 {
@@ -16,6 +14,7 @@ namespace IdentityServer
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog(SeriLogger.Configure)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

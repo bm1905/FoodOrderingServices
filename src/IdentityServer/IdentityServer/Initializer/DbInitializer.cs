@@ -3,6 +3,7 @@ using IdentityModel;
 using IdentityServer.DbContext;
 using IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityServer.Initializer
 {
@@ -22,6 +23,10 @@ namespace IdentityServer.Initializer
 
         public void Initialize()
         {
+            if (!_db.Database.EnsureCreated())
+            {
+                // _db.Database.Migrate();
+            }
             if (_roleManager.FindByNameAsync(Config.Admin).Result == null)
             {
                 _roleManager.CreateAsync(new IdentityRole(Config.Admin)).GetAwaiter().GetResult();

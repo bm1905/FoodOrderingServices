@@ -1,11 +1,9 @@
 using HealthChecks.UI.Client;
-using IdentityServer.DbContext;
 using IdentityServer.Extensions;
 using IdentityServer.Initializer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
