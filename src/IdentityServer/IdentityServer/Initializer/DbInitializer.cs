@@ -23,10 +23,9 @@ namespace IdentityServer.Initializer
 
         public void Initialize()
         {
-            if (!_db.Database.EnsureCreated())
-            {
-                // _db.Database.Migrate();
-            }
+            _db.Database.EnsureCreated();
+            // _db.Database.Migrate();
+            
             if (_roleManager.FindByNameAsync(Config.Admin).Result == null)
             {
                 _roleManager.CreateAsync(new IdentityRole(Config.Admin)).GetAwaiter().GetResult();

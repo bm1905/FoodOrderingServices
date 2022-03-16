@@ -20,6 +20,7 @@ APIs for Food Ordering Service
 `5007/8007 - Health Check`    
 `5010/8010 - API Gateway`  
 `5011/8011 - Identity Server`   
+`5500/8500 - Consul Service Discovery`   
 
 ## Reserved Ports for Docker
 `5601 - Kibana GUI`  
@@ -37,7 +38,8 @@ Identity Server API/UI - http://host.docker.internal:8011
 ## GUIs
 Portainer - http://host.docker.internal:9000  
 Mongo GUI - http://host.docker.internal:8081  
-Kibana - http://host.docker.internal:5601
+Kibana - http://host.docker.internal:5601  
+Consul Service Discovery - http://host.docker.internal:8500
 
 ## Services
 Catalog Database - http://host.docker.internal:27017  

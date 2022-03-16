@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Common.Logging\Common.Logging.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Common.ServiceDiscovery\Common.ServiceDiscovery.csproj" />
     <ProjectReference Include="..\Catalog.API.Application\Catalog.API.Application.csproj" />
   </ItemGroup>
 

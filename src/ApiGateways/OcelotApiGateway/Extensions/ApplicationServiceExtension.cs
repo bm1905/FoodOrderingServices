@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Common.ServiceDiscovery;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.Cache.CacheManager;
@@ -13,6 +14,7 @@ namespace OcelotApiGateway.Extensions
         {
             services.ConfigureOcelot();
             services.ConfigureAuthentication(config);
+            services.AddServiceDiscovery(config);
             return services;
         }
 
@@ -29,6 +31,13 @@ namespace OcelotApiGateway.Extensions
                         ValidateAudience = false
                     };
                 });
+        }
+        
+        // Service Discovery
+        private static void AddServiceDiscovery(this IServiceCollection services, IConfiguration config)
+        {
+            var serviceConfig = config.GetServiceConfig();
+            services.RegisterConsulServices(serviceConfig);
         }
 
         private static void ConfigureOcelot(this IServiceCollection services)

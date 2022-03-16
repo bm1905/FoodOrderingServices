@@ -1,3 +1,4 @@
+using Common.ServiceDiscovery;
 using IdentityServer.DbContext;
 using IdentityServer.Initializer;
 using IdentityServer.Models;
@@ -17,6 +18,7 @@ namespace IdentityServer.Extensions
             IConfiguration config)
         {
             services.AddIdentityServer(config);
+            services.AddServiceDiscovery(config);
             services.AddHealthChecks(config);
             return services;
         }
@@ -28,6 +30,13 @@ namespace IdentityServer.Extensions
                 .AddSqlServer(config.GetSection("DatabaseSettings:ConnectionString").Value,
                     name: "Identity Server Database Health",
                     failureStatus: HealthStatus.Degraded);
+        }
+        
+        // Service Discovery
+        private static void AddServiceDiscovery(this IServiceCollection services, IConfiguration config)
+        {
+            var serviceConfig = config.GetServiceConfig();
+            services.RegisterConsulServices(serviceConfig);
         }
 
         // Identity Server
