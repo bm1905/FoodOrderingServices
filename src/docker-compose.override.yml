@@ -10,8 +10,13 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ElasticConfiguration:Uri=http://elasticsearch:9200"
+      - "ServiceConfig:ServiceDiscoveryAddress=http://consul:8500"
+      - "ServiceConfig:ServiceAddress=http://ocelot-api-gateway"
+      - "ServiceConfig:ServiceId=2"
+      - "ServiceConfig:ServiceName=ocelot-api-gateway"
     depends_on:
       - catalog-api-webapi
+      - consul
     ports:
       - "8010:80"
  
@@ -28,10 +33,16 @@ services:
       - "CloudinarySettings:ApiSecret=VZjkwbzwtqA2LMVJJ2jNd2RsKZ8"
       - "ElasticConfiguration:Uri=http://elasticsearch:9200"
       - "IdentityServerSettings:IdentityServerUrl=http://identity-server"
+      - "ServiceConfig:ServiceDiscoveryAddress=http://consul:8500"
+      - "ServiceConfig:ServiceAddress=http://catalog-api-webapi"
+      - "ServiceConfig:ServiceId=1"
+      - "ServiceConfig:ServiceName=catalog-api-webapi"
+        
     depends_on:
       - catalog-api-mongodb
       - catalog-api-redis
       - identity-server
+      - consul
     ports:
       - "8000:80"
 
@@ -41,9 +52,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ElasticConfiguration:Uri=http://elasticsearch:9200"
-      - "DatabaseSettings:ConnectionString=Server=identity-server-sqldb;Database=IdentityServer;User Id=sa;Password=testaccount123;"
+      - "DatabaseSettings:ConnectionString=Server=identity-server-sqldb;Database=IdentityServer;User Id=sa;Password=testaccount!23;"
+      - "ServiceConfig:ServiceDiscoveryAddress=http://consul:8500"
+      - "ServiceConfig:ServiceAddress=http://identity-server"
+      - "ServiceConfig:ServiceId=3"
+      - "ServiceConfig:ServiceName=identity-server"
     depends_on:
       - identity-server-sqldb
+      - consul
     ports:
       - "8011:80"
         
@@ -63,78 +79,87 @@ services:
 
 #Part of infrastructure, remove when not needed
   
-#  # Portainer to view docker images
-#  portainer:
-#    container_name: portainer
-#    restart: always
-#    ports:
-#      - "8080:8000"
-#      - "9000:9000"
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - portainer_data:/data
-#  
-#  # Mongo GUI
-#  mongo-express:
-#    container_name: mongo-express
-#    restart: always
-#    ports:
-#      - "8081:8081"
-#    environment:
-#      ME_CONFIG_MONGODB_ADMINUSERNAME: testaccount
-#      ME_CONFIG_MONGODB_ADMINPASSWORD: testaccount
-#      ME_CONFIG_MONGODB_SERVER: catalog-api-mongodb
-#    depends_on:
-#      - catalog-api-mongodb
-#  
-#  # Redis database
-#  catalog-api-redis:
-#    container_name: catalog-api-redis
-#    restart: always
-#    ports:
-#      - "6379:6379" 
-#
-#  # Mongo Database for Catalog API
-#  catalog-api-mongodb:
-#    container_name: catalog-api-mongodb
-#    restart: always
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: testaccount
-#      MONGO_INITDB_ROOT_PASSWORD: testaccount
-#    ports:
-#      - "27017:27017"
-#    volumes:
-#      - mongo_data:/data/db
-#  
-#  # SQL Server Database for Identity Server
-#  identity-server-sqldb:
-#    container_name: identity-server-sqldb
-#    environment:
-#      SA_PASSWORD: "testaccount123"
-#      ACCEPT_EULA: "Y"
-#    restart: always
-#    ports:
-#      - "1433:1433"
-#        
-#  # Elasticsearch to collect logs
-#  elasticsearch:
-#    container_name: elasticsearch
-#    environment:
-#      - xpack.monitoring.enabled=true
-#      - xpack.watcher.enabled=false
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#      - discovery.type=single-node
-#    ports:
-#      - "9200:9200"
-#    volumes:
-#      - elasticsearch-data:/usr/share/elasticsearch/data
-#
-#  # Kibana to display logs
-#  kibana:
-#    container_name: kibana
-#    environment:
-#      - ELASTICSEARCH_URL=http://elasticsearch:9200
-#    depends_on:
-#      - elasticsearch
-#    ports:
-#      - "5601:5601"
+  # Portainer to view docker images
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+      - "8080:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+  # Mongo GUI
+  mongo-express:
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: testaccount
+      ME_CONFIG_MONGODB_ADMINPASSWORD: testaccount
+      ME_CONFIG_MONGODB_SERVER: catalog-api-mongodb
+    depends_on:
+      - catalog-api-mongodb
+
+  # Redis database
+  catalog-api-redis:
+    container_name: catalog-api-redis
+    restart: always
+    ports:
+      - "6379:6379" 
+
+  # Mongo Database for Catalog API
+  catalog-api-mongodb:
+    container_name: catalog-api-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: testaccount
+      MONGO_INITDB_ROOT_PASSWORD: testaccount
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # SQL Server Database for Identity Server
+  identity-server-sqldb:
+    container_name: identity-server-sqldb
+    environment:
+      SA_PASSWORD: "testaccount!23"
+      ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+      - "1433:1433"
+
+  # Elasticsearch to collect logs
+  elasticsearch:
+    container_name: elasticsearch
+    environment:
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+  # Kibana to display logs
+  kibana:
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+  
+  # Consul for service discovery
+  consul:
+    container_name: consul
+    restart: always
+    command: consul agent -dev -log-level=warn -ui -client=0.0.0.0
+    hostname: consul
+    ports:
+      - "8500:8500"

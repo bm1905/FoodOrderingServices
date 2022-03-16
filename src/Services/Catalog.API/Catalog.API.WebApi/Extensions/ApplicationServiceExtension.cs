@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Catalog.API.WebApi.Extensions.SwaggerOptions;
+using Common.ServiceDiscovery;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ namespace Catalog.API.WebApi.Extensions
         {
             services.AddSwaggerVersions();
             services.AddSecurity(config);
+            services.AddServiceDiscovery(config);
             services.AddHealthChecks(config);
             return services;
         }
@@ -55,6 +57,13 @@ namespace Catalog.API.WebApi.Extensions
                     policy.RequireClaim("scope", "Catalog.API");
                 });
             });
+        }
+        
+        // Service Discovery
+        private static void AddServiceDiscovery(this IServiceCollection services, IConfiguration config)
+        {
+            var serviceConfig = config.GetServiceConfig();
+            services.RegisterConsulServices(serviceConfig);
         }
 
         // Swagger
