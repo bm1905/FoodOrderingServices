@@ -26,6 +26,7 @@ APIs for Food Ordering Service
 `5500/8500 - Consul Service Discovery`   
 
 ## Reserved Ports for Docker
+`1433 - SQL Server for Identity Server`  
 `5601 - Kibana GUI`  
 `6779 - Redis for Catalog`  
 `8081 - Mongo GUI`  
