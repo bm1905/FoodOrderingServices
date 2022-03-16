@@ -1,8 +1,11 @@
 # FoodOrderingServices
 APIs for Food Ordering Service
 
-# Embeded Diagrams
+# SAD Diagram
 ![Alt text here](SAD.png)
+
+# Catalog API Design Diagram
+![Alt text here](CatalogAPI-Design.png)
 
 # General Commands
 ## Docker Up
