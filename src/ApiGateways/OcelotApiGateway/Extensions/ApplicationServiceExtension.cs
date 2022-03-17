@@ -28,11 +28,12 @@ namespace OcelotApiGateway.Extensions
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateAudience = false
+                        ValidateAudience = false,
+                        ValidateIssuer = false
                     };
                 });
         }
-        
+
         // Service Discovery
         private static void AddServiceDiscovery(this IServiceCollection services, IConfiguration config)
         {

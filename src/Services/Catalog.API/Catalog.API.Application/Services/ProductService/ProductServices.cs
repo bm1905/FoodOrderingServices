@@ -9,6 +9,7 @@ using Catalog.API.Application.Models.DTOs;
 using Catalog.API.Application.Models.DTOs.ProductPhotos;
 using Catalog.API.Application.Models.DTOs.Products;
 using Catalog.API.Application.Models.Pagination;
+using Catalog.API.Application.Services.AccountService;
 using Catalog.API.Application.Services.PhotoService;
 using Catalog.API.Application.Services.UriService;
 using Catalog.API.Core.Entities;
@@ -24,14 +25,16 @@ namespace Catalog.API.Application.Services.ProductService
         private readonly IMapper _mapper;
         private readonly IUriService _uriService;
         private readonly IPhotoService _photoService;
+        private readonly IAccountService _accountService;
 
         public ProductServices(IProductRepository productRepository, IMapper mapper, IUriService uriService,
-            IPhotoService photoService)
+            IPhotoService photoService, IAccountService accountService)
         {
             _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _uriService = uriService ?? throw new ArgumentNullException(nameof(uriService));
             _photoService = photoService ?? throw new ArgumentNullException(nameof(photoService));
+            _accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
         }
 
         public async Task<PagedResponse<ProductResponse>> ProcessGetProductsAsync(PaginationQuery paginationQuery)
@@ -157,6 +160,9 @@ namespace Catalog.API.Application.Services.ProductService
 
         public async Task<ProductResponse> ProcessCreateProductAsync(CreateProductRequest product)
         {
+            // Get username
+            string userName = AccountHelpers.GetUserName(_accountService);
+
             Product existingProduct = await _productRepository.GetProductByName(product.Name);
             if (existingProduct != null)
                 throw new AlreadyExistsException(
@@ -164,11 +170,17 @@ namespace Catalog.API.Application.Services.ProductService
 
             Product mappedProduct = _mapper.Map<Product>(product);
 
+            // Include the username in product
+            mappedProduct.CreatedBy = userName;
+
             // Upload to cloudinary and create record in database
-            var productPhoto = await UploadPhotoToCloudinaryAndDatabase(product.ProductPhoto, product.Category);
+            ProductPhoto productPhoto = await UploadPhotoToCloudinaryAndDatabase(product.ProductPhoto, product.Category);
 
             // This will be the first photo upload, so make it main photo by default
             productPhoto.IsMain = true;
+
+            // Include the username in photo
+            productPhoto.CreatedBy = userName;
 
             // Add the photo to list in product collection
             mappedProduct.ProductPhotos.Add(productPhoto);
@@ -181,6 +193,9 @@ namespace Catalog.API.Application.Services.ProductService
 
         public async Task<ProductResponse> ProcessUpdateProductAsync(string productId, UpdateProductRequest product)
         {
+            // Get username
+            string userName = AccountHelpers.GetUserName(_accountService);
+
             // Old product
             Product oldProduct = await _productRepository.GetProductById(productId);
             if (oldProduct == null) throw new NotFoundException($"Product with id: {productId} not found!");
@@ -191,6 +206,9 @@ namespace Catalog.API.Application.Services.ProductService
             mappedProduct.CreatedBy = oldProduct.CreatedBy;
             mappedProduct.CreatedOn = oldProduct.CreatedOn;
             mappedProduct.ProductPhotos = oldProduct.ProductPhotos;
+
+            // Update the username in product
+            mappedProduct.CreatedBy = userName;
 
             bool isUpdated = await _productRepository.UpdateProduct(mappedProduct);
 
@@ -293,6 +311,9 @@ namespace Catalog.API.Application.Services.ProductService
 
         private async Task<ProductPhoto> UploadPhotoToCloudinaryAndDatabase(IFormFile file, string category)
         {
+            // Get username
+            string userName = AccountHelpers.GetUserName(_accountService);
+
             // Insert the photo first
             ImageUploadResult result = await _photoService.AddPhotoAsync(file, category);
             if (result.Error != null)
@@ -306,9 +327,9 @@ namespace Catalog.API.Application.Services.ProductService
                     Url = result.SecureUrl.AbsoluteUri,
                     PublicId = result.PublicId,
                     IsMain = false,
-                    CreatedBy = "System",
+                    CreatedBy = userName,
                     CreatedOn = DateTime.UtcNow,
-                    UpdatedBy = "System",
+                    UpdatedBy = userName,
                     UpdatedOn = DateTime.UtcNow
                 };
 

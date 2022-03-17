@@ -44,7 +44,8 @@ namespace Catalog.API.WebApi.Extensions
                     options.Authority = config.GetSection("IdentityServerSettings:IdentityServerUrl").Value;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateAudience = false
+                        ValidateAudience = false, 
+                        ValidateIssuer = false
                     };
                     options.RequireHttpsMetadata = false;
                 });

@@ -14,12 +14,15 @@ services:
       - "ServiceConfig:ServiceAddress=http://ocelot-api-gateway"
       - "ServiceConfig:ServiceId=2"
       - "ServiceConfig:ServiceName=ocelot-api-gateway"
+      - "IdentityServer:BaseUrl=http://identity-server"
+      - "IdentityServer:IdentityApiKey=IdentityApiKey"
     depends_on:
       - catalog-api-webapi
+      - identity-server
       - consul
     ports:
       - "8010:80"
- 
+
   # Catalog API
   catalog-api-webapi:
     container_name: catalog-api-webapi

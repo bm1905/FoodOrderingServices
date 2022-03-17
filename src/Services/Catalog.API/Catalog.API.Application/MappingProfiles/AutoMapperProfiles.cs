@@ -14,15 +14,11 @@ namespace Catalog.API.Application.MappingProfiles
             // Entities
             CreateMap<Product, ProductResponse>();
             CreateMap<ProductRequest, Product>()
-                .ForMember(dest => dest.CreatedOn, opt => 
-                    opt.MapFrom(x => DateTime.UtcNow))
-                .ForMember(dest => dest.CreatedBy, opt =>
-                    opt.MapFrom(x => "system"));
+                .ForMember(dest => dest.CreatedOn, opt =>
+                    opt.MapFrom(x => DateTime.UtcNow));
             CreateMap<UpdateProductRequest, Product>()
                 .ForMember(dest => dest.UpdatedOn, opt =>
-                    opt.MapFrom(x => DateTime.UtcNow))
-                .ForMember(dest => dest.UpdatedBy, opt =>
-                    opt.MapFrom(x => "update system"));
+                    opt.MapFrom(x => DateTime.UtcNow));
             CreateMap<ProductPhoto, ProductPhotoResponse>();
 
             // Pagination

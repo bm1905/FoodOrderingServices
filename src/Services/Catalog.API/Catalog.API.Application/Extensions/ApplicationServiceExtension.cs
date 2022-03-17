@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
+using System.Security.Claims;
 using Catalog.API.Application.Configurations;
 using Catalog.API.Application.MappingProfiles;
+using Catalog.API.Application.Services.AccountService;
 using Catalog.API.Application.Services.CacheService;
 using Catalog.API.Application.Services.PhotoService;
 using Catalog.API.Application.Services.ProductService;
@@ -39,6 +41,15 @@ namespace Catalog.API.Application.Extensions
                 // For versions in base url api/v1/....
                 return new UriService(string.Concat(request?.Scheme, "://", request?.Host.ToUriComponent(), request?.Path));
             });
+
+            services.AddTransient<IAccountService, AccountService>(provider =>
+            {
+                var accessor = provider.GetRequiredService<IHttpContextAccessor>();
+                ClaimsPrincipal claims = accessor?.HttpContext?.User;
+
+                return new AccountService(claims);
+            });
+
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         }

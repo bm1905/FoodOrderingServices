@@ -42,7 +42,7 @@ namespace Catalog.API.WebApi.Controllers.v1
 
         [MapToApiVersion("1.0")]
         [HttpGet("{productId:length(24)}", Name = "GetProductById")]
-        [CacheAttributeFilter(600)]
+        [CacheAttributeFilter(60)]
         [ProducesResponseType(typeof(IEnumerable<ProductResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(NotFoundException), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(InternalServerErrorException), (int)HttpStatusCode.InternalServerError)]
@@ -55,7 +55,7 @@ namespace Catalog.API.WebApi.Controllers.v1
 
         [MapToApiVersion("1.0")]
         [HttpGet("[action]/{category}")]
-        [CacheAttributeFilter(600)]
+        [CacheAttributeFilter(60)]
         [ProducesResponseType(typeof(IEnumerable<ProductResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(NotFoundException), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(InternalServerErrorException), (int)HttpStatusCode.InternalServerError)]
@@ -65,11 +65,10 @@ namespace Catalog.API.WebApi.Controllers.v1
 
             return Ok(products);
         }
-
-        [Authorize(Roles = "Admin")]
+        
         [MapToApiVersion("1.0")]
         [HttpGet("[action]")]
-        [CacheAttributeFilter(600)]
+        [CacheAttributeFilter(60)]
         [ProducesResponseType(typeof(IEnumerable<ProductResponse>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(NotFoundException), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(InternalServerErrorException), (int)HttpStatusCode.InternalServerError)]

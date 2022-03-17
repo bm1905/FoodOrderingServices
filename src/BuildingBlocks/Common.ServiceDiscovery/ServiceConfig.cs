@@ -1,3 +1,5 @@
+using System;
+
 namespace Common.ServiceDiscovery
 {
     public class ServiceConfig

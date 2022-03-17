@@ -3,14 +3,37 @@
     {
       "DownstreamPathTemplate": "/api/v1/Product",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "5000"
-        }
-      ],
+      "ServiceName": "catalog-api-webapi",
       "UpstreamPathTemplate": "/Product",
-      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "UpstreamHttpMethod": [ "GET" ],
+      "FileCacheOptions": { "TtlSeconds": 30 }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Product/{catchAll}",
+      "DownstreamScheme": "http",
+      "ServiceName": "catalog-api-webapi",
+      "UpstreamPathTemplate": "/Product/{catchAll}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "FileCacheOptions": { "TtlSeconds": 30 }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Product",
+      "DownstreamScheme": "http",
+      "ServiceName": "catalog-api-webapi",
+      "UpstreamPathTemplate": "/Product",
+      "UpstreamHttpMethod": [ "POST", "PUT", "DELETE" ],
+      "FileCacheOptions": { "TtlSeconds": 30 },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Product/{catchAll}",
+      "DownstreamScheme": "http",
+      "ServiceName": "catalog-api-webapi",
+      "UpstreamPathTemplate": "/Product/{catchAll}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "DELETE" ],
       "FileCacheOptions": { "TtlSeconds": 30 },
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
@@ -19,10 +42,9 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5010",
     "ServiceDiscoveryProvider": {
-      "Host": "localhost",
-      "Port": 5000,
+      "Host": "consul",
+      "Port": 8500,
       "Type": "Consul"
     }
   }

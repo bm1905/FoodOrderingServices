@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Catalog.API.Core.Entities;
 
 namespace Catalog.API.Application.Models.DTOs.Products
@@ -14,5 +15,9 @@ namespace Catalog.API.Application.Models.DTOs.Products
         public string Category { get; set; }
         public ICollection<ProductPhoto> ProductPhotos { get; set; }
         public int Rating { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string UpdatedBy { get; set; }
+        public DateTime? UpdatedOn { get; set; }
     }
 }
