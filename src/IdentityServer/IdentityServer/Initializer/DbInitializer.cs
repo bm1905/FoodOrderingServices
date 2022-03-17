@@ -23,7 +23,7 @@ namespace IdentityServer.Initializer
 
         public void Initialize()
         {
-            _db.Database.EnsureCreated();
+            // _db.Database.EnsureCreated();
             // _db.Database.Migrate();
             
             if (_roleManager.FindByNameAsync(Config.Admin).Result == null)

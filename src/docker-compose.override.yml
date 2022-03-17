@@ -37,7 +37,6 @@ services:
       - "ServiceConfig:ServiceAddress=http://catalog-api-webapi"
       - "ServiceConfig:ServiceId=1"
       - "ServiceConfig:ServiceName=catalog-api-webapi"
-        
     depends_on:
       - catalog-api-mongodb
       - catalog-api-redis
