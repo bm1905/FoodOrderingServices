@@ -1,5 +1,4 @@
-﻿using System;
-using Catalog.API.Core.Common;
+﻿using Catalog.API.Core.Common;
 using MongoDB.Bson;
 
 namespace Catalog.API.Core.Entities
