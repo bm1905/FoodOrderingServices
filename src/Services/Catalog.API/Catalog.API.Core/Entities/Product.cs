@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Catalog.API.Core.Common;
 
 namespace Catalog.API.Core.Entities
