@@ -1,4 +1,5 @@
 using Common.Logging;
+using Discount.API.WebApi.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -9,7 +10,9 @@ namespace Discount.API.WebApi
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            host.MigrateDatabase<Program>();
+            host.Run();
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -18,6 +18,13 @@ services:
       context: .
       dockerfile: Services/Catalog.API/Catalog.API.WebApi/Dockerfile
 
+  # Discount API
+  discount-api-webapi:
+    image: ${DOCKER_REGISTRY-}discountapiwebapi
+    build:
+      context: .
+      dockerfile: Services/Discount.API/Discount.API.WebApi/Dockerfile
+
   # Identity Server
   identity-server:
     image: ${DOCKER_REGISTRY-}identityserver
@@ -42,6 +49,10 @@ services:
   mongo-express:
     image: mongo-express
 
+  # Postgres Admin GUI
+  pgadmin:
+    image: dpage/pgadmin4
+
   # Redis database
   catalog-api-redis:
     image: redis:alpine
@@ -50,6 +61,11 @@ services:
   catalog-api-mongodb:
     image: mongo
 
+  # PostgreSQL database for Discount API
+  discount-api-postgresdb:
+    image: postgres:alpine
+
+  # SQL server for Identity Server
   identity-server-sqldb:
     image: mcr.microsoft.com/mssql/server:2017-latest
 
@@ -64,8 +80,10 @@ services:
  # Consul for service discovery
   consul:
     image: consul
-    
+
 volumes:
   mongo_data:
   portainer_data:
   elasticsearch-data:
+  postgres_data:
+  pgadmin_data:

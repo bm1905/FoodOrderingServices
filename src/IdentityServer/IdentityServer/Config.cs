@@ -21,6 +21,7 @@ namespace IdentityServer
             new List<ApiScope>
             {
                 new("Catalog.API", "Catalog API"),
+                new("Discount.API", "Discount API"),
                 new("read", "Read your data"),
                 new("write", "Write your data"),
                 new("delete", "Delete your data")
@@ -46,7 +47,8 @@ namespace IdentityServer
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email,
-                        "Catalog.API"
+                        "Catalog.API",
+                        "Discount.API"
                     }
                 },
                 new()
@@ -61,7 +63,8 @@ namespace IdentityServer
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email,
-                        "Catalog.API"
+                        "Catalog.API",
+                        "Discount.API"
                     }
                 }
             };

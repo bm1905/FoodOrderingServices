@@ -1,5 +1,6 @@
 using Discount.API.Application.Extensions;
 using Discount.API.DataAccess.Extensions;
+using Discount.API.WebApi.Extensions;
 using Discount.API.WebApi.Middlewares;
 using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
@@ -54,6 +55,8 @@ namespace Discount.API.WebApi
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

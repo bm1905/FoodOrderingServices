@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Discount.API.Application.Exceptions;
@@ -19,25 +21,41 @@ namespace Discount.API.Application.Services.DiscountService
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<DiscountCouponResponse> ProcessGetDiscountAsync(string productName)
+        public async Task<IEnumerable<DiscountCouponResponse>> ProcessGetDiscountsAsync(string productName)
         {
-            var discountCoupon = await _discountRepository.GetDiscountCoupon(productName);
-            if (discountCoupon == null)
+            var discountCoupons = (await _discountRepository.GetDiscountCoupons(productName)).ToList();
+            if (discountCoupons.Count == 0)
             {
-                return new DiscountCouponResponse
+                return new List<DiscountCouponResponse>
                 {
-                    ProductName = productName,
-                    Amount = 0,
-                    Description = "No discount found"
+                    new()
+                    {
+                        ProductName = productName,
+                        Amount = 0,
+                        Description = "No discount found"
+                    }
                 };
             }
 
-            var mappedDiscountCoupon = _mapper.Map<DiscountCouponResponse>(discountCoupon);
-            return mappedDiscountCoupon;
+            var mappedDiscountCoupons = _mapper.Map<IEnumerable<DiscountCouponResponse>>(discountCoupons);
+            return mappedDiscountCoupons;
         }
 
         public async Task<bool> ProcessCreateDiscountAsync(CreateDiscountCouponRequest discountCoupon)
         {
+            var existingDiscountCoupons = (await _discountRepository.GetDiscountCoupons(discountCoupon.ProductName)).ToList();
+            if (existingDiscountCoupons.Count > 0)
+            {
+                foreach (var existingDiscountCoupon in existingDiscountCoupons)
+                {
+                    if (existingDiscountCoupon.ProductName == discountCoupon.ProductName &&
+                        existingDiscountCoupon.CouponCode == discountCoupon.CouponCode)
+                    {
+                        throw new AlreadyExistsException(
+                            $"Discount for {discountCoupon.ProductName} with code {discountCoupon.CouponCode} already exists!");
+                    }
+                }
+            }
             var mappedDiscountCoupon = _mapper.Map<DiscountCoupon>(discountCoupon);
             mappedDiscountCoupon.CreatedBy = "system";
 
@@ -49,26 +67,23 @@ namespace Discount.API.Application.Services.DiscountService
             return true;
         }
 
-        public async Task<bool> ProcessUpdateDiscountAsync(UpdateDiscountCouponRequest discountCoupon)
+        public async Task<bool> ProcessUpdateDiscountAsync(int couponId, UpdateDiscountCouponRequest discountCoupon)
         {
-            var existingDiscountCoupon = await _discountRepository.GetDiscountCoupon(discountCoupon.ProductName);
-            if (existingDiscountCoupon == null)
-                throw new NotFoundException($"Discount for {discountCoupon.ProductName} does not exist!");
-
             var mappedDiscountCoupon = _mapper.Map<DiscountCoupon>(discountCoupon);
+
             mappedDiscountCoupon.UpdatedBy = "update system";
             
-            var isDiscountUpdated= await _discountRepository.UpdateDiscountCoupon(mappedDiscountCoupon);
+            var isDiscountUpdated= await _discountRepository.UpdateDiscountCoupon(couponId, mappedDiscountCoupon);
 
             if (!isDiscountUpdated)
-                throw new InternalServerErrorException($"Discount {discountCoupon.CouponCode} of {discountCoupon.Amount} for " +
+                throw new NotFoundException($"Discount {discountCoupon.CouponCode} of {discountCoupon.Amount} for " +
                                                        $"{discountCoupon.ProductName} could not be updated!");
             return true;
         }
 
         public async Task<bool> ProcessDeleteDiscountAsync(string productName)
         {
-            var existingDiscountCoupon = await _discountRepository.GetDiscountCoupon(productName);
+            var existingDiscountCoupon = await _discountRepository.GetDiscountCoupons(productName);
             if (existingDiscountCoupon == null)
                 throw new NotFoundException($"Discount for {productName} does not exist!");
 

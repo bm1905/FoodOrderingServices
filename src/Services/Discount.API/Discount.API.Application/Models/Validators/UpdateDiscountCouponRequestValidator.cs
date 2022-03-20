@@ -18,7 +18,9 @@ namespace Discount.API.Application.Models.Validators
             RuleFor(model => model.CouponCode)
                 .NotEmpty()
                 .NotNull()
-                .WithMessage("Coupon code must be provided!");
+                .WithMessage("Coupon code must be provided!")
+                .MaximumLength(5).WithMessage("Coupon Code must of 5 characters.")
+                .MinimumLength(5).WithMessage("Coupon Code must of 5 characters.");
             RuleFor(model => model.ExpiresIn)
                 .NotNull()
                 .NotEmpty()

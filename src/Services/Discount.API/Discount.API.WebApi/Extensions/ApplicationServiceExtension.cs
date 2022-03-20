@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -16,6 +17,7 @@ namespace Discount.API.WebApi.Extensions
         public static IServiceCollection AddWebApiServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddSwaggerVersions();
+            services.AddSecurity(config);
             services.AddServiceDiscovery(config);
             services.AddHealthChecks(config);
             return services;
@@ -31,8 +33,31 @@ namespace Discount.API.WebApi.Extensions
         }
 
         // Security
+        private static void AddSecurity(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = config.GetSection("IdentityServerSettings:IdentityServerUrl").Value;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        ValidateIssuer = false
+                    };
+                    options.RequireHttpsMetadata = false;
+                });
 
-        
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiScope", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("scope", "Discount.API");
+                });
+            });
+        }
+
+
         // Service Discovery
         private static void AddServiceDiscovery(this IServiceCollection services, IConfiguration config)
         {
