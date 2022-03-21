@@ -7,8 +7,9 @@ namespace Discount.API.Application.Services.DiscountService
     public interface IDiscountService
     {
         Task<IEnumerable<DiscountCouponResponse>> ProcessGetDiscountsAsync(string productName);
+        Task<IEnumerable<DiscountCouponResponse>> ProcessGetAllDiscountsAsync();
         Task<bool> ProcessCreateDiscountAsync(CreateDiscountCouponRequest discountCoupon);
-        Task<bool> ProcessUpdateDiscountAsync(int couponId, UpdateDiscountCouponRequest discountCoupon);
-        Task<bool> ProcessDeleteDiscountAsync(string productName);
+        Task<bool> ProcessUpdateDiscountAsync(string couponCode, UpdateDiscountCouponRequest discountCoupon);
+        Task<bool> ProcessDeleteDiscountAsync(string couponCode);
     }
 }

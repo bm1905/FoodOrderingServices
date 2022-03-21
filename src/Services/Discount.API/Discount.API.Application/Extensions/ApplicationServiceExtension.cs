@@ -1,9 +1,13 @@
 ﻿using System.Reflection;
+using System.Security.Claims;
 using Discount.API.Application.MappingProfiles;
+using Discount.API.Application.Services.AccountService;
 using Discount.API.Application.Services.DiscountService;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Http;
 
 namespace Discount.API.Application.Extensions
 {
@@ -19,8 +23,17 @@ namespace Discount.API.Application.Extensions
         private static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IDiscountService, DiscountService>();
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddTransient<IAccountService, AccountService>(provider =>
+            {
+                var accessor = provider.GetRequiredService<IHttpContextAccessor>();
+                ClaimsPrincipal claims = accessor?.HttpContext?.User;
+
+                return new AccountService(claims);
+            });
+
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
         private static void RegisterAutoMapper(this IServiceCollection services)

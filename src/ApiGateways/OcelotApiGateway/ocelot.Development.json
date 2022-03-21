@@ -22,7 +22,6 @@
       "ServiceName": "catalog-api-webapi",
       "UpstreamPathTemplate": "/Product",
       "UpstreamHttpMethod": [ "POST", "PUT", "DELETE" ],
-      "FileCacheOptions": { "TtlSeconds": 30 },
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
@@ -34,7 +33,42 @@
       "ServiceName": "catalog-api-webapi",
       "UpstreamPathTemplate": "/Product/{catchAll}",
       "UpstreamHttpMethod": [ "POST", "PUT", "DELETE" ],
-      "FileCacheOptions": { "TtlSeconds": 30 },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Discount",
+      "DownstreamScheme": "http",
+      "ServiceName": "discount-api-webapi",
+      "UpstreamPathTemplate": "/Discount",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Discount/{catchAll}",
+      "DownstreamScheme": "http",
+      "ServiceName": "discount-api-webapi",
+      "UpstreamPathTemplate": "/Discount/{catchAll}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Discount",
+      "DownstreamScheme": "http",
+      "ServiceName": "discount-api-webapi",
+      "UpstreamPathTemplate": "/Discount",
+      "UpstreamHttpMethod": [ "POST", "PUT", "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Discount/{catchAll}",
+      "DownstreamScheme": "http",
+      "ServiceName": "discount-api-webapi",
+      "UpstreamPathTemplate": "/Discount/{catchAll}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "DELETE" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
